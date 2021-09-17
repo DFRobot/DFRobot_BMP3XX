@@ -218,10 +218,11 @@ To use the library, first download the library file, paste it into the directory
 
 ## History
 
-- data 2021-03-10
+- data 2021-03-20
 - version V1.0.0
 
 
 ## Credits
 
 Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+

@@ -17,9 +17,14 @@
 #ifndef __DFROBOT_BMP3XX_H__
 #define __DFROBOT_BMP3XX_H__
 
-#include <Arduino.h>
+#if (ARDUINO >= 100)
+ #include "Arduino.h"
+#else
+ #include "WProgram.h"
+#endif
 #include <Wire.h>
 #include <SPI.h>
+
 
 // Enable this macro, you can see the detailed running process of the program
 #define ENABLE_DBG 0

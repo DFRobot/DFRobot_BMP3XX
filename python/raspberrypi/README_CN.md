@@ -216,10 +216,11 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 
 ## History
 
-- data 2021-03-10
+- data 2021-03-20
 - version V1.0.0
 
 
 ## Credits
 
 Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+

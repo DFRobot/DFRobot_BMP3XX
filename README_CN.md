@@ -221,23 +221,22 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 MCU                | Work Well    | Work Wrong   | Untested    | Remarks
 ------------------ | :----------: | :----------: | :---------: | -----
 Arduino Uno        |      √       |              |             | 
-Firebeetle ESP8266 |      √       |              |             | 
-Firebeetle ESP32-E |      √       |              |             | 
-FireBeetle M0      |      √       |              |             | 
-micro:bit          |      √       |              |             | 
+Arduino MEGA2560   |      √       |              |             | 
+Arduino Leonardo   |      √       |              |             | 
+FireBeetle-ESP8266 |      √       |              |             | 
+FireBeetle-ESP32   |      √       |              |             | 
+FireBeetle-M0      |      √       |              |             | 
+Micro:bit          |      √       |              |             | 
+Raspberry Pi       |      √       |              |             | 
 
 
 ## History
 
-- data 2021-4-20
-- version V1.0.0
+- Data 2021-04-20
+- Version V1.0.0
 
 
 ## Credits
 
 Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
-
-
-
-
 
