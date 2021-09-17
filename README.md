@@ -10,7 +10,7 @@ in battery driven devices such as mobile phones, GPS modules or watches.
 <img src="https://ws.dfrobot.com.cn/FgGMuOYn58ZHD5s6jcOWoRUwVlOh" width="450" hegiht="" align=right/>
 
 
-## Product Link (https://www.dfrobot.com.cn/goods-1392.html)
+## Product Link (https://www.dfrobot.com/product-1792.html)
     SKU：SEN0423/SEN0251
 
 
@@ -231,12 +231,12 @@ micro:bit          |      √       |              |             |
 ## History
 
 - data 2021-4-20
-- version V0.1
+- version V1.0.0
 
 
 ## Credits
 
-Written by qsj(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
 
 
 

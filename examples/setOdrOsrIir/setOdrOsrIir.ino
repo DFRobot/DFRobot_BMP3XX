@@ -5,11 +5,11 @@
  * @n Configure pressure and temperature over-sampling mode (increase sampling times)
  * @n Set the output data rate setting in subdivision/sub-sampling mode (set the data output rate, which must be less than the sampling frequency)
  * @n IIR filter coefficient setting (filter noise)
- * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence     The MIT License (MIT)
- * @author [qsj](qsj.huang@dfrobot.com)
- * @version  V0.1
- * @date  2021-4-30
+ * @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @licence The MIT License (MIT)
+ * @author [qsjhyy](qsj.huang@dfrobot.com)
+ * @version V1.0.0
+ * @date 2021-04-30
  * @get from https://www.dfrobot.com
  * @url https://github.com/DFRobot/DFRobot_BMP3XX
  */

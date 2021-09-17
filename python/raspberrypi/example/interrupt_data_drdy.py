@@ -4,10 +4,11 @@
   # @brief Demonstrate ready data (temperature/pressure) interrupt
   # @n When measured data, the sensor will generate a 2.5 ms pulse signal by INT in the non-interrupt register locked state.
   # @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
-  # @licence     The MIT License (MIT)
-  # @author      [qsj](qsj.huang@dfrobot.com)
-  # @version  V0.1
-  # @date  2021-05-06
+  # @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+  # @licence The MIT License (MIT)
+  # @author [qsjhyy](qsj.huang@dfrobot.com)
+  # @version V1.0.0
+  # @date 2021-05-06
   # @get from https://www.dfrobot.com
   # @url https://github.com/DFRobot/DFRobot_BMP3XX
 '''

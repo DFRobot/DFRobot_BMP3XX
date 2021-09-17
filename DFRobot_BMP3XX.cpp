@@ -4,8 +4,8 @@
  * @n This is a pressure and temperature sensor. IIC address cannot be changed. It can be controlled by IIC and SPI port.
  * @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence The MIT License (MIT)
- * @author [qsj](qsj.huang@dfrobot.com)
- * @version V0.1
+ * @author [qsjhyy](qsj.huang@dfrobot.com)
+ * @version V1.0.0
  * @date 2021-04-1
  * @get from https://www.dfrobot.com
  * @url https://github.com/DFRobot/DFRobot_BMP3XX

@@ -7,11 +7,11 @@
   @n These functions improve the accuracy of data collected by the BMP (390L/388) sensor.
   @n BMP (390L/388) also has a 512-byte FIFO data buffer, which greatly improves its usability.
   @n Similarly, BMP (390L/388) has an interrupt pin, which can be used in a power-saving way without using software algorithms.
-  @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
-  @licence     The MIT License (MIT)
-  @author [qsj.huang](li.feng@dfrobot.com)
-  @version  V1.0
-  @date  2021-5-6
+  @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+  @licence The MIT License (MIT)
+  @author [qsjhyy](qsj.huang@dfrobot.com)
+  @version V1.0.0
+  @date 2021-05-06
   @get from https://www.dfrobot.com
   @url https://github.com/DFRobot/DFRobot_BMP3XX
 '''

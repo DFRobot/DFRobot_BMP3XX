@@ -230,12 +230,12 @@ micro:bit          |      √       |              |             |
 ## History
 
 - data 2021-4-20
-- version V0.1
+- version V1.0.0
 
 
 ## Credits
 
-Written by qsj(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
 
 
 
