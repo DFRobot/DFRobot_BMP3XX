@@ -9,21 +9,21 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 <img src="https://ws.dfrobot.com.cn/FgGMuOYn58ZHD5s6jcOWoRUwVlOh" width="450" hegiht="" align=right/>
 
 
-## Product Link (https://www.dfrobot.com.cn/goods-1392.html)
+## 产品链接 (https://www.dfrobot.com.cn/goods-1392.html)
     SKU：SEN0423/SEN0251
 
 
-## Table of Contents
+## 目录
 
-* [Summary](#summary)
-* [Installation](#installation)
-* [Methods](#methods)
-* [Compatibility](#compatibility)
-* [History](#history)
-* [Credits](#credits)
+* [概述](#概述)
+* [库安装](#库安装)
+* [方法](#方法)
+* [兼容性](#兼容性)
+* [历史](#历史)
+* [创作者](#创作者)
 
 
-## Summary
+## 概述
 * BMP(390L/388)可读取温度和压力。
 * 该库支持SPI/I2C通信。
 * BMP(390L/388)也包括FIFO功能。这极大地提高了易用性。
@@ -33,12 +33,12 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 * 由于传感器(BMP390L)数据的内置硬件同步及其从外部设备同步数据的能力。
 
 
-## Installation
+## 库安装
 
 要使用这个库，首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开示例文件夹并在文件夹中运行演示。
 
 
-## Methods
+## 方法
 
 ```C++
 
@@ -216,27 +216,27 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 ```
 
 
-## Compatibility
+## 兼容性
 
-MCU                | Work Well    | Work Wrong   | Untested    | Remarks
------------------- | :----------: | :----------: | :---------: | -----
-Arduino Uno        |      √       |              |             | 
-Arduino MEGA2560   |      √       |              |             | 
-Arduino Leonardo   |      √       |              |             | 
-FireBeetle-ESP8266 |      √       |              |             | 
-FireBeetle-ESP32   |      √       |              |             | 
-FireBeetle-M0      |      √       |              |             | 
-Micro:bit          |      √       |              |             | 
-Raspberry Pi       |      √       |              |             | 
+主板                | 通过    | 未通过   | 未测试 | 备注 
+------------------ | :----------: | :----------: | :---------: | :---:
+Arduino Uno        |      √       |              |             |
+Arduino MEGA2560   |      √       |              |             |
+Arduino Leonardo   |      √       |              |             |
+FireBeetle-ESP8266 |      √       |              |             |
+FireBeetle-ESP32   |      √       |              |             |
+FireBeetle-M0      |      √       |              |             |
+Micro:bit          |      √       |              |             |
+Raspberry Pi       |      √       |              |             |
 
 
-## History
+## 历史
 
 - Data 2021-04-20
 - Version V1.0.0
 
 
-## Credits
+## 创作者
 
-Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by qsjhyy(yihuan.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
 

@@ -221,15 +221,15 @@ then open the examples folder and run the demo in the folder.
 ## Compatibility
 
 MCU                | Work Well    | Work Wrong   | Untested    | Remarks
------------------- | :----------: | :----------: | :---------: | -----
-Arduino Uno        |      √       |              |             | 
-Arduino MEGA2560   |      √       |              |             | 
-Arduino Leonardo   |      √       |              |             | 
-FireBeetle-ESP8266 |      √       |              |             | 
-FireBeetle-ESP32   |      √       |              |             | 
-FireBeetle-M0      |      √       |              |             | 
-Micro:bit          |      √       |              |             | 
-Raspberry Pi       |      √       |              |             | 
+------------------ | :----------: | :----------: | :---------: | :---:
+Arduino Uno        |      √       |              |             |
+Arduino MEGA2560   |      √       |              |             |
+Arduino Leonardo   |      √       |              |             |
+FireBeetle-ESP8266 |      √       |              |             |
+FireBeetle-ESP32   |      √       |              |             |
+FireBeetle-M0      |      √       |              |             |
+Micro:bit          |      √       |              |             |
+Raspberry Pi       |      √       |              |             |
 
 
 ## History
@@ -240,5 +240,5 @@ Raspberry Pi       |      √       |              |             |
 
 ## Credits
 
-Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by qsjhyy(yihuan.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
 
