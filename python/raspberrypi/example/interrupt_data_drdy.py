@@ -1,28 +1,29 @@
 # -*- coding: utf-8 -*
+'''!
+  @file  interruptDataDrdy.py
+  @brief  Demonstrate ready data (temperature/pressure) interrupt
+  @n  When measured data, the sensor will generate a 2.5 ms pulse signal by INT in the non-interrupt register locked state.
+  @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+  @license  The MIT License (MIT)
+  @author  [qsjhyy](yihuan.huang@dfrobot.com)
+  @version  V1.0
+  @date  2021-05-06
+  @url  https://github.com/DFRobot/DFRobot_BMP3XX
 '''
-  # @file interruptDataDrdy.py
-  # @brief Demonstrate ready data (temperature/pressure) interrupt
-  # @n When measured data, the sensor will generate a 2.5 ms pulse signal by INT in the non-interrupt register locked state.
-  # @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
-  # @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
-  # @licence The MIT License (MIT)
-  # @author [qsjhyy](qsj.huang@dfrobot.com)
-  # @version V1.0.0
-  # @date 2021-05-06
-  # @get from https://www.dfrobot.com
-  # @url https://github.com/DFRobot/DFRobot_BMP3XX
-'''
+from __future__ import print_function
 import sys
 sys.path.append('../')
 from DFRobot_BMP3XX import *
 
-# iic_addr = 0x76: pin SDO is low
-# iic_addr = 0x77: pin SDO is high
-# Note: Both the BMP390L and gravity version of the BMP388 sensor have pulled the SDO pin high by default, the address is 0x77;
-#       but the breakout version does not pull the SDO high, and the IIC address is 0x76.
-# The following IIC and SPI communications support both BMP388 and BMP390L
+'''
+  # iic_addr = 0x76: pin SDO is low
+  # iic_addr = 0x77: pin SDO is high
+  # Note: Both the BMP390L and gravity version of the BMP388 sensor have pulled the SDO pin high by default, the address is 0x77; but the breakout version does not pull 
+  #       the SDO high, and the IIC address is 0x76.
+  # The following IIC and SPI communications support both BMP388 and BMP390L
+'''
 sensor = DFRobot_BMP3XX_I2C(iic_addr = 0x77,bus = 1)
-#sensor = DFRobot_BMP3XX_SPI(cs=8, bus=0, dev=0, speed=8000000)
+# sensor = DFRobot_BMP3XX_SPI(cs=8, bus=0, dev=0, speed=8000000)
 
 global flag
 flag = 0
@@ -77,8 +78,8 @@ def loop():
   global flag
   if(flag == 1):
     flag = 0
-    ''' When data is ready and the interrupt is triggered, read altitude, unit: m '''
-    print(f"Altitude : {sensor.get_altitude} m")
+    # When data is ready and the interrupt is triggered, read altitude, unit: m
+    print("Altitude : %.2f m" %(sensor.get_altitude))
     print()
     time.sleep(0.5)
 

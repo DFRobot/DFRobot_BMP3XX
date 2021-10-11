@@ -3,9 +3,9 @@
  * @brief Define the infrastructure DFRobot_BMP3XX class
  * @n This is a pressure and temperature sensor. IIC address cannot be changed. It can be controlled by IIC and SPI port.
  * @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence The MIT License (MIT)
- * @author [qsjhyy](qsj.huang@dfrobot.com)
- * @version V1.0.0
+ * @license The MIT License (MIT)
+ * @author [qsjhyy](yihuan.huang@dfrobot.com)
+ * @version  V1.0
  * @date 2021-04-1
  * @get from https://www.dfrobot.com
  * @url https://github.com/DFRobot/DFRobot_BMP3XX
@@ -34,14 +34,14 @@ int DFRobot_BMP3XX::begin(void)
   }
 
   BMP3Info.seaLevelPressPa = STANDARD_SEA_LEVEL_PRESSURE_PA;
-  setPWRMode(ePressEN + eTempEN + eNormalMode);   // Set normal aquisition mode, enable temperature and pressure aquisition.
+  setPWRMode(ePressEN | eTempEN | eNormalMode);   // Set normal aquisition mode, enable temperature and pressure aquisition.
   delay(50);
   getBMP3XXCalibData();
   delay(50);
-  cacheErrorStatus();
-  cacheSensorStatus();
-  cacheSensorEvent();
-  cacheINTStatus();
+  // cacheErrorStatus();
+  // cacheSensorStatus();
+  // cacheSensorEvent();
+  // cacheINTStatus();
   DBG("begin ok!");
   return ERR_OK;
 }
@@ -135,12 +135,12 @@ bool DFRobot_BMP3XX::setSamplingMode(ePrecisionMode_t mode)
   bool ret = true;
   switch (mode)
   {
-    CASE_SAMPLING_MODE(eUltraLowPrecision, ePressEN + eTempEN + eForcedMode, ePressOSRMode1 + eTempOSRMode1, BMP3XX_ODR_0P01_HZ, BMP3XX_IIR_CONFIG_COEF_0)
-    CASE_SAMPLING_MODE(eLowPrecision, ePressEN + eTempEN + eNormalMode, ePressOSRMode2 + eTempOSRMode1, BMP3XX_ODR_100_HZ, BMP3XX_IIR_CONFIG_COEF_0)
-    CASE_SAMPLING_MODE(eNormalPrecision1, ePressEN + eTempEN + eNormalMode, ePressOSRMode4 + eTempOSRMode1, BMP3XX_ODR_50_HZ, BMP3XX_IIR_CONFIG_COEF_3)
-    CASE_SAMPLING_MODE(eNormalPrecision2, ePressEN + eTempEN + eNormalMode, ePressOSRMode8 + eTempOSRMode1, BMP3XX_ODR_50_HZ, BMP3XX_IIR_CONFIG_COEF_1)
-    CASE_SAMPLING_MODE(eHighPrecision, ePressEN + eTempEN + eNormalMode, ePressOSRMode8 + eTempOSRMode1, BMP3XX_ODR_12P5_HZ, BMP3XX_IIR_CONFIG_COEF_1)
-    CASE_SAMPLING_MODE(eUltraPrecision, ePressEN + eTempEN + eNormalMode, ePressOSRMode16 + eTempOSRMode2, BMP3XX_ODR_25_HZ, BMP3XX_IIR_CONFIG_COEF_3)
+    CASE_SAMPLING_MODE(eUltraLowPrecision, ePressEN | eTempEN | eForcedMode, ePressOSRMode1 | eTempOSRMode1, BMP3XX_ODR_0P01_HZ, BMP3XX_IIR_CONFIG_COEF_0)
+    CASE_SAMPLING_MODE(eLowPrecision, ePressEN | eTempEN | eNormalMode, ePressOSRMode2 | eTempOSRMode1, BMP3XX_ODR_100_HZ, BMP3XX_IIR_CONFIG_COEF_0)
+    CASE_SAMPLING_MODE(eNormalPrecision1, ePressEN | eTempEN | eNormalMode, ePressOSRMode4 | eTempOSRMode1, BMP3XX_ODR_50_HZ, BMP3XX_IIR_CONFIG_COEF_3)
+    CASE_SAMPLING_MODE(eNormalPrecision2, ePressEN | eTempEN | eNormalMode, ePressOSRMode8 | eTempOSRMode1, BMP3XX_ODR_50_HZ, BMP3XX_IIR_CONFIG_COEF_1)
+    CASE_SAMPLING_MODE(eHighPrecision, ePressEN | eTempEN | eNormalMode, ePressOSRMode8 | eTempOSRMode1, BMP3XX_ODR_12P5_HZ, BMP3XX_IIR_CONFIG_COEF_1)
+    CASE_SAMPLING_MODE(eUltraPrecision, ePressEN | eTempEN | eNormalMode, ePressOSRMode16 | eTempOSRMode2, BMP3XX_ODR_25_HZ, BMP3XX_IIR_CONFIG_COEF_3)
     default:
       DBG("samping mode error!");
       ret = false;

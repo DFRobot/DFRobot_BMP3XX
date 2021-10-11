@@ -1,37 +1,37 @@
 /*!
- * @file getTempPress.ino
- * @brief Get measurement frequency and data of the sensor (temperature, pressure, altitude).
- * @n You can write in the current altitude to calibrate the sensor, eliminating errors for measuring the barometric altitude.
- * @n Get the current measurement frequency, temperature and pressure values.
- * @n Altitude is calculated from barometric pressure measurements and calibration values.
- * @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence The MIT License (MIT)
- * @author [qsjhyy](qsj.huang@dfrobot.com)
- * @version V1.0.0
- * @date 2021-04-30
- * @get from https://www.dfrobot.com
- * @url https://github.com/DFRobot/DFRobot_BMP3XX
+ * @file  getTempPress.ino
+ * @brief  Get measurement frequency and data of the sensor (temperature, pressure, altitude).
+ * @details  You can write in the current altitude to calibrate the sensor, eliminating errors for measuring the barometric altitude.
+ * @n  Get the current measurement frequency, temperature and pressure values.
+ * @n  Altitude is calculated from barometric pressure measurements and calibration values.
+ * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @license  The MIT License (MIT)
+ * @author  [qsjhyy](yihuan.huang@dfrobot.com)
+ * @version  V1.0
+ * @date  2021-04-30
+ * @url  https://github.com/DFRobot/DFRobot_BMP3XX
  */
 #include <DFRobot_BMP3XX.h>
 
-/** If using Gravity products, choose these two interfaces and comment subsequent interfaces.*/
+/* If using Gravity products, choose these two interfaces and comment subsequent interfaces. */
 // DFRobot_BMP388_IIC sensor();
 // DFRobot_BMP390L_IIC sensor();
 
 /**
-* Select the chip version BMP388/BMP390L
-* Select communication interface IIC, please comment out SPI interface.
-* IIC communication address settings: eSDOGND: connect SDO pin to GND, I2C address is 0×76 now.
-*                   eSDOVDD: Connect SDO pin to VDDIO (3v3), I2C address is 0×77 now
-*/
+ * Select the chip version BMP388/BMP390L
+ * Select communication interface IIC, please comment out SPI interface.
+ * IIC communication address settings: eSDOGND: connect SDO pin to GND, I2C address is 0×76 now.
+ *                   eSDOVDD: Connect SDO pin to VDDIO (3v3), I2C address is 0×77 now
+ */
 // DFRobot_BMP388_IIC sensor(&Wire, sensor.eSDOVDD);
- DFRobot_BMP390L_IIC sensor(&Wire, sensor.eSDOVDD);
+DFRobot_BMP390L_IIC sensor(&Wire, sensor.eSDOVDD);
+
 /**
-* Select chip version BMP388/BMP390L
-* Select communication port SPI, please comment out IIC port
-* Set up digital pin according to the on-board pin connected with SPI chip-select pin.
-* Notice: csPin used here is D3 digital pin on ESP32, other non-conflicting pins can also be selected as external interrupt pins.
-*/
+ * Select chip version BMP388/BMP390L
+ * Select communication port SPI, please comment out IIC port
+ * Set up digital pin according to the on-board pin connected with SPI chip-select pin.
+ * Notice: csPin used here is D3 digital pin on ESP32, other non-conflicting pins can also be selected as external interrupt pins.
+ */
 // uint8_t csPin = D3;
 // DFRobot_BMP388_SPI sensor(&SPI, csPin);
 // DFRobot_BMP390L_SPI sensor(&SPI, csPin);
@@ -56,14 +56,14 @@ void setup(void)
   Serial.println("Begin ok!");
 
   /**
-  * 6 commonly used sampling modes that allows users to configure easily, mode:
-  *      eUltraLowPrecision, Ultra-low precision, suitable for monitoring weather (lowest power consumption), the power is mandatory mode.
-  *      eLowPrecision, Low precision, suitable for random detection, power is normal mode
-  *      eNormalPrecision1, Normal precision 1, suitable for dynamic detection on handheld devices (e.g on mobile phones), power is normal mode.
-  *      eNormalPrecision2, Normal precision 2, suitable for drones, power is normal mode.
-  *      eHighPrecision, High precision, suitable for low-power handled devices (e.g mobile phones), power is in normal mode.
-  *      eUltraPrecision, Ultra-high precision, suitable for indoor navigation, its acquisition rate will be extremely low, and the acquisition cycle is 1000 ms.
-  */
+   * 6 commonly used sampling modes that allows users to configure easily, mode:
+   *      eUltraLowPrecision, Ultra-low precision, suitable for monitoring weather (lowest power consumption), the power is mandatory mode.
+   *      eLowPrecision, Low precision, suitable for random detection, power is normal mode
+   *      eNormalPrecision1, Normal precision 1, suitable for dynamic detection on handheld devices (e.g on mobile phones), power is normal mode.
+   *      eNormalPrecision2, Normal precision 2, suitable for drones, power is normal mode.
+   *      eHighPrecision, High precision, suitable for low-power handled devices (e.g mobile phones), power is in normal mode.
+   *      eUltraPrecision, Ultra-high precision, suitable for indoor navigation, its acquisition rate will be extremely low, and the acquisition cycle is 1000 ms.
+   */
   while( !sensor.setSamplingMode(sensor.eUltraPrecision) ){
     Serial.println("Set samping mode fail, retrying....");
     delay(3000);
@@ -72,12 +72,12 @@ void setup(void)
   delay(100);
   #ifdef CALIBRATE_ABSOLUTE_DIFFERENCE
   /**
-  * Calibrate the sensor according to the current altitude
-  * In this example, we use an altitude of 540 meters in Wenjiang District of Chengdu (China). 
-  * Please change to the local altitude when using it.
-  * If this interface is not called, the measurement data will not eliminate the absolute difference.
-  * Notice: This interface is only valid for the first call.
-  */
+   * Calibrate the sensor according to the current altitude
+   * In this example, we use an altitude of 540 meters in Wenjiang District of Chengdu (China). 
+   * Please change to the local altitude when using it.
+   * If this interface is not called, the measurement data will not eliminate the absolute difference.
+   * Notice: This interface is only valid for the first call.
+   */
   if( sensor.calibratedAbsoluteDifference(540.0) ){
     Serial.println("Absolute difference base value set successfully!");
   }
