@@ -51,7 +51,7 @@ def setup():
     # mode The measurement mode and power mode that need to set.
     #   SLEEP_MODE(Sleep mode): It will be in sleep mode by default after power-on reset. In this mode, no measurement is performed and power consumption is minimal. 
     #                           All registers are accessible for reading the chip ID and compensation coefficient.
-    #   FORCED_MODE(Forced mode)：In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the measurement
+    #   FORCED_MODE(Forced mode): In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the measurement
     #                             is completed, the sensor will return to sleep mode, and the measurement result can be obtained in the register.
     #   NORMAL_MODE(Normal mode): Continuously loop between the measurement period and the standby period. The output data rates are related to the ODR mode setting.
   '''

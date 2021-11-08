@@ -1,16 +1,16 @@
 # DFRobot_BMP3XX
 * [English Version](./README.md)
 
-这是一个BMP3XX的库，功能是读取温度和压力。
+这是一个BMP3XX的库, 功能是读取温度和压力。
 BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传感器。
-传感器模块安装在一个非常紧凑的10针金属盖LGA封装中，占地面积仅为2.0 × 2.0 mm²，最大0.8 mm封装高度。
-它的小尺寸和低功耗的3.2µA @1Hz允许实现在电池驱动的设备，如手机，GPS模块或手表。
+传感器模块安装在一个非常紧凑的10针金属盖LGA封装中, 占地面积仅为2.0 × 2.0 mm², 最大0.8 mm封装高度。
+它的小尺寸和低功耗的3.2µA @1Hz允许实现在电池驱动的设备, 如手机, GPS模块或手表。
 
 ![产品实物图](./resources/images/BMP388.png)
 
 
 ## 产品链接 (https://www.dfrobot.com.cn/goods-1392.html)
-    SKU：SEN0423/SEN0251
+    SKU: SEN0423/SEN0251
 
 
 ## 目录
@@ -18,7 +18,7 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 * [概述](#概述)
 * [库安装](#库安装)
 * [方法](#方法)
-* [兼容性](#兼容性y)
+* [兼容性](#兼容性)
 * [历史](#历史)
 * [创作者](#创作者)
 
@@ -29,14 +29,14 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 * 该库支持SPI/I2C通信。
 * BMP(390L/388)也包括FIFO功能。这极大地提高了易用性。
 * 中断可以在不使用软件算法的情况下以高效的方式使用。
-* BMP390L比它的前辈更精确，覆盖从300 hPa到1250 hPa的宽测量范围。
+* BMP390L比它的前辈更精确, 覆盖从300 hPa到1250 hPa的宽测量范围。
 * 这款新的气压传感器(BMP390L)具有诱人的性价比和低功耗。
 * 由于传感器(BMP390L)数据的内置硬件同步及其从外部设备同步数据的能力。
 
 
 ## 库安装
 
-要使用这个库，首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开示例文件夹并在文件夹中运行演示。
+要使用这个库, 首先下载库文件, 将其粘贴到\Arduino\libraries目录中, 然后打开示例文件夹并在文件夹中运行演示。
 
 
 ## 方法
@@ -141,7 +141,7 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
   /**
    * @fn setFIFOMode1
    * @brief FIFO配置一(FIFO1)
-   * @param mode 需要设置的FIFO模式,下列模式相加为mode:
+   * @param mode 需要设置的FIFO模式, 下列模式经过或运算后得到mode:
    * @n       eFIFODIS: 禁用FIFO, eFIFOEN: 启用FIFO
    * @n       eFIFOStopOnFullDIS: 写满时继续写入, eFIFOStopOnFullEN: 写满时停止写入
    * @n       eFIFOTimeDIS: 禁用, eFIFOTimeEN: 启用在最后一个有效数据帧之后返回传感器时间帧
@@ -154,7 +154,7 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
   /**
    * @fn setFIFOMode2
    * @brief FIFO配置二(FIFO2)
-   * @param mode 需要设置的FIFO模式,下列模式相加为mode:
+   * @param mode 需要设置的FIFO模式, 下列模式经过或运算后得到mode:
    * @n       8种压力和温度数据的FIFO下采样选择(1-128), 系数为2^fifo_subsampling(0-7): 
    * @n         eFIFOSubsampling0, eFIFOSubsampling1, eFIFOSubsampling2, eFIFOSubsampling3,
    * @n         eFIFOSubsampling4, eFIFOSubsampling5, eFIFOSubsampling6, eFIFOSubsampling7,
@@ -166,11 +166,11 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
   /**
    * @fn setINTMode
    * @brief 中断配置(INT)
-   * @param mode 需要设置的中断模式,下列模式相加为mode:
+   * @param mode 需要设置的中断模式, 下列模式经过或运算后得到mode:
    * @n       中断引脚输出模式: eINTPinPP:  推挽 , eINTPinOD:  开漏
    * @n       中断引脚有效电平: eINTPinActiveLevelLow:  低电平有效 , eINTPinActiveLevelHigh:  高电平有效
    * @n       中断寄存器锁定: eINTLatchDIS:  禁用 , eINTLatchEN:  启用
-   * @n       FIFO水位到达中断: eINTFWTMDIS:  禁用 , eINTFWTMEN:  启用
+   * @n       FIFO水位到达中断: eIntFWtmDis:  禁用 , eIntFWtmEn:  启用
    * @n       FIFO存满中断: eINTFFullDIS:  禁用 , eINTFFullEN:  启用
    * @n       中断引脚初始(无效、无中断)电平: eINTInitialLevelLOW:  低电平 , eINTInitialLevelHIGH:  高电平
    * @n       温度/压力数据准备中断: eINTDataDrdyDIS:  禁用 , eINTDataDrdyEN:  启用
@@ -181,11 +181,11 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
   /**
    * @fn setPWRMode
    * @brief 测量模式和电源模式的配置
-   * @param mode 需要设置的测量模式和电源模式,下列模式相加为mode:
+   * @param mode 需要设置的测量模式和电源模式, 下列模式经过或运算后得到mode:
    * @n       ePressDIS:  禁用压力测量 , ePressEN:  启用压力测量
    * @n       eTempDIS:  禁用温度测量 , eTempEN:  启用温度测量
    * @n       eSleepMode, eForcedMode, eNormalMode 三种模式: 
-   * @n         睡眠模式: 上电复位后默认设置为睡眠模式。在睡眠模式下, 不执行任何测量, 并且功耗最少。所有寄存器均可访问；可以读取芯片ID和补偿系数。
+   * @n         睡眠模式: 上电复位后默认设置为睡眠模式。在睡眠模式下, 不执行任何测量, 并且功耗最少。所有寄存器均可访问;可以读取芯片ID和补偿系数。
    * @n         强制模式: 在强制模式下, 根据选择的测量和滤波选项进行单个测量。测量完成后, 传感器返回睡眠模式, 测量结果可从数据寄存器中获得。
    * @n         正常模式: 在测量周期和待机周期之间连续循环, 输出数据率(output data rates)与ODR模式设置有关。
    * @return None
@@ -195,7 +195,7 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
   /**
    * @fn setOSRMode
    * @brief 压力和温度测量的过采样配置(OSR:over-sampling register)
-   * @param mode 需要设置的压力和温度测量的过采样模式,下列模式相加为mode:
+   * @param mode 需要设置的压力和温度测量的过采样模式, 下列模式经过或运算后得到mode:
    * @n       6种压力过采样模式:
    * @n         ePressOSRMode1,  压力采样×1, 16 bit / 2.64 Pa(推荐温度过采样×1)
    * @n         ePressOSRMode2,  压力采样×2, 16 bit / 2.64 Pa(推荐温度过采样×1)
@@ -266,7 +266,7 @@ Raspberry Pi       |      √       |              |             |
 ## 历史
 
 - 2021/04/20 - 1.0.0 版本
-- 2021/10/09 - 1.0.1 版本
+- 2021/11/08 - 1.0.1 版本
 
 
 ## 创作者

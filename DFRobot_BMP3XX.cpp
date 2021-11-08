@@ -231,13 +231,13 @@ void DFRobot_BMP3XX::getFIFOData(float &FIFOTemperatureC, float &FIFOPressurePa)
       FIFOTemperatureC = calibTemperatureC((uint32_t)FIFOData[1] | ((uint32_t)FIFOData[2] << 8) | ((uint32_t)FIFOData[3] << 16));
       FIFOPressurePa = calibPressurePa((uint32_t)FIFOData[4] | ((uint32_t)FIFOData[5] << 8) | ((uint32_t)FIFOData[6] << 16));
       break;
-    case BMP3_FIFO_TEMP_FRAME:   // 只有温度存入了FIFO
+    case BMP3_FIFO_TEMP_FRAME:   // only temperature is stored in FIFO
       FIFOTemperatureC = calibTemperatureC((uint32_t)FIFOData[1] | ((uint32_t)FIFOData[2] << 8) | ((uint32_t)FIFOData[3] << 16));
       break;
-    case BMP3_FIFO_PRESS_FRAME:   // 只有压力存入了FIFO
+    case BMP3_FIFO_PRESS_FRAME:   // only pressure is stored in FIFO
       FIFOPressurePa = calibPressurePa((uint32_t)FIFOData[1] | ((uint32_t)FIFOData[2] << 8) | ((uint32_t)FIFOData[3] << 16));
       break;
-    case BMP3_FIFO_TIME_FRAME:   // FIFO时间帧
+    case BMP3_FIFO_TIME_FRAME:   // FIFO time frame
       DBG("FIFO time:");
       DBG(((uint32_t)FIFOData[1] | ((uint32_t)FIFOData[2] << 8) | ((uint32_t)FIFOData[3] << 16))/25);
       DBG("ms");
@@ -453,7 +453,7 @@ DFRobot_BMP3XX_IIC::DFRobot_BMP3XX_IIC(TwoWire *pWire, eSDOPinMode_t mode, uint8
 
 int DFRobot_BMP3XX_IIC::begin(void)
 {
-  _pWire->begin();   // Wire.h（IIC）library function initialize wire library
+  _pWire->begin();   // Wire.h(IIC)library function initialize wire library
   return DFRobot_BMP3XX::begin();   // Use the initialization function of the parent class
 }
 

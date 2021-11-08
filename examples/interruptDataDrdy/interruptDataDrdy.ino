@@ -17,7 +17,7 @@
  * Select IIC communication interface, please comment out SPI interface.
  * IIC communication address settings: eSDOGND: connect SDO pin to GND, I2C address is 0×76 now.
  *                   eSDOVDD: Connect SDO pin to VDDIO (3v3), I2C address is 0×77 now
- * Notice: If using Gravity products, default IIC communication address is: 0×77（eSDOVDD）
+ * Notice: If using Gravity products, default IIC communication address is: 0×77(eSDOVDD)
  */
 //DFRobot_BMP388_IIC sensor(&Wire, sensor.eSDOVDD);
 DFRobot_BMP390L_IIC sensor(&Wire, sensor.eSDOVDD);
@@ -68,7 +68,7 @@ void setup(void)
    *      Interrupt pin output mode: eINTPinPP: Push pull, eINTPinOD: Open drain
    *      Interrupt pin active level: eINTPinActiveLevelLow: Active low, eINTPinActiveLevelHigh: Active high
    *      Register interrupt latch: eINTLatchDIS: Disable, eINTLatchEN: Enable
-   *      FIFO water level reached interrupt: eINTFWTMDIS: Disable, eINTFWTMEN: Enable
+   *      FIFO water level reached interrupt: eIntFWtmDis: Disable, eIntFWtmEn: Enable
    *      FIFO full interrupt: eINTFFullDIS: Disable, eINTFFullEN: Enable
    *      Interrupt pin initial (invalid, non-interrupt) level: eINTInitialLevelLOW: Low, eINTInitialLevelHIGH: High
    *      Temperature/pressure data ready interrupt: eINTDataDrdyDIS: Disable, eINTDataDrdyEN: Enable
@@ -81,7 +81,7 @@ void setup(void)
   sensor.setINTMode(sensor.eINTPinPP | 
                     sensor.eINTPinActiveLevelHigh | 
                     sensor.eINTLatchDIS | 
-                    sensor.eINTFWTMDIS | 
+                    sensor.eIntFWtmDis | 
                     sensor.eINTFFullDIS | 
                     sensor.eINTInitialLevelLOW | 
                     sensor.eINTDataDrdyEN);

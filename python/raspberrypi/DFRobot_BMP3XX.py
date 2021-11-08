@@ -40,7 +40,7 @@ BMP388_CHIP_ID = 0x50
 ## BMP390L chip version
 BMP390L_CHIP_ID = 0x60
 
-# BMP3XX寄存器地址
+# BMP3XX register address
 ## The “CHIP_ID” register contains the chip identification code.
 BMP3XX_CHIP_ID = 0x00
 ## The “Rev_ID” register contains the mask revision of the ASIC.
@@ -92,7 +92,7 @@ BMP3XX_CMD = 0x7E
 ## Sleep mode: It will be in sleep mode by default after power-on reset. In this mode, no measurement is performed and power consumption is minimal. 
 ##             All registers are accessible for reading the chip ID and compensation coefficient.
 SLEEP_MODE  = 0x00
-## Forced mode：In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the
+## Forced mode: In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the
 ##              measurement is completed, the sensor will return to sleep mode, and the measurement result can be obtained in the register.
 FORCED_MODE = 0x10
 ## Normal mode: Continuously loop between the measurement period and the standby period. The output data rates are related to the ODR mode setting.
@@ -166,7 +166,7 @@ LOW_PRECISION = 1
 NORMAL_PRECISION1 = 2
 ## Normal precision 2, suitable for drones, power is normal mode
 NORMAL_PRECISION2 = 3
-## High precision, suitable for low-power handled devices （e.g mobile phones）, power is normal mode
+## High precision, suitable for low-power handled devices (e.g mobile phones), power is normal mode
 HIGH_PRECISION = 4
 ## Ultra-high precision, suitable for indoor navigation, its acquisition rate will be extremely low, and the acquisition cycle is 1000 ms.
 ULTRA_PRECISION = 5
@@ -202,8 +202,8 @@ STANDARD_SEA_LEVEL_PRESSURE_PA = 101325
 
 class DFRobot_BMP3XX(object):
     '''!
-      @brief 定义DFRobot_BMP3XX基类
-      @details 用于驱动压力传感器
+      @brief define DFRobot_BMP3XX base class
+      @details for driving the pressure sensor
     '''
 
     def __init__(self):
@@ -216,7 +216,7 @@ class DFRobot_BMP3XX(object):
     def begin(self):
         '''!
           @brief Initialize sensor
-          @return  返回初始化状态
+          @return  return initialization status
           @retval True indicate initialization succeed
           @retval False indicate initialization failed
         '''
@@ -267,7 +267,7 @@ class DFRobot_BMP3XX(object):
     def get_altitude(self):
         '''!
           @brief Calculate the altitude based on the atmospheric pressure measured by the sensor
-          @return Return altitude， unit: m
+          @return Return altitude, unit: m
           @attention If the reference value is provided before, the absolute value of the current 
           @n         position pressure is calculated according to the calibrated sea level atmospheric pressure
         '''
@@ -300,7 +300,7 @@ class DFRobot_BMP3XX(object):
     def enable_fifo(self, mode):
         '''!
           @brief Enbale or disable FIFO
-          @param mode：
+          @param mode: 
           @n       True: Enable FIFO
           @n       False: Disable FIFO
         '''
@@ -317,31 +317,31 @@ class DFRobot_BMP3XX(object):
     def set_oversampling(self, press_osr_set, temp_osr_set):
         '''!
           @brief Configure the oversampling when measuring pressure and temperature (OSR:over-sampling register)
-          @param mode Oversampling mode of pressure and temperature measurement need to be set:
-          @n       6 pressure oversampling mode:
-          @n         BMP3XX_PRESS_OSR_SETTINGS[0], Pressure sampling×1，16 bit / 2.64 Pa (Recommend temperature oversampling×1)
-          @n         BMP3XX_PRESS_OSR_SETTINGS[1], Pressure sampling×2，16 bit / 2.64 Pa (Recommend temperature oversampling×1)
-          @n         BMP3XX_PRESS_OSR_SETTINGS[2], Pressure sampling×4，18 bit / 0.66 Pa (Recommend temperature oversampling×1)
-          @n         BMP3XX_PRESS_OSR_SETTINGS[3], Pressure sampling×8，19 bit / 0.33 Pa (Recommend temperature oversampling×2)
-          @n         BMP3XX_PRESS_OSR_SETTINGS[4], Pressure sampling×16，20 bit / 0.17 Pa (Recommend temperature oversampling×2)
-          @n         BMP3XX_PRESS_OSR_SETTINGS[5], Pressure sampling×32，21 bit / 0.085 Pa (Recommend temperature oversampling×2)
-          @n       6 temperature oversampling mode
-          @n         BMP3XX_TEMP_OSR_SETTINGS[0], Temperature sampling×1，16 bit / 0.0050 °C
-          @n         BMP3XX_TEMP_OSR_SETTINGS[1], Temperature sampling×2，16 bit / 0.0025 °C
-          @n         BMP3XX_TEMP_OSR_SETTINGS[2], Temperature sampling×4，18 bit / 0.0012 °C
-          @n         BMP3XX_TEMP_OSR_SETTINGS[3], Temperature sampling×8，19 bit / 0.0006 °C
-          @n         BMP3XX_TEMP_OSR_SETTINGS[4], Temperature sampling×16，20 bit / 0.0003 °C
-          @n         BMP3XX_TEMP_OSR_SETTINGS[5], Temperature sampling×32，21 bit / 0.00015 °C
+          @details Oversampling mode of pressure and temperature measurement need to be set
+          @param press_osr_set 6 pressure oversampling mode:
+          @n       BMP3XX_PRESS_OSR_SETTINGS[0], Pressure sampling×1, 16 bit / 2.64 Pa (Recommend temperature oversampling×1)
+          @n       BMP3XX_PRESS_OSR_SETTINGS[1], Pressure sampling×2, 16 bit / 2.64 Pa (Recommend temperature oversampling×1)
+          @n       BMP3XX_PRESS_OSR_SETTINGS[2], Pressure sampling×4, 18 bit / 0.66 Pa (Recommend temperature oversampling×1)
+          @n       BMP3XX_PRESS_OSR_SETTINGS[3], Pressure sampling×8, 19 bit / 0.33 Pa (Recommend temperature oversampling×2)
+          @n       BMP3XX_PRESS_OSR_SETTINGS[4], Pressure sampling×16, 20 bit / 0.17 Pa (Recommend temperature oversampling×2)
+          @n       BMP3XX_PRESS_OSR_SETTINGS[5], Pressure sampling×32, 21 bit / 0.085 Pa (Recommend temperature oversampling×2)
+          @param temp_osr_set 6 temperature oversampling mode:
+          @n       BMP3XX_TEMP_OSR_SETTINGS[0], Temperature sampling×1, 16 bit / 0.0050 °C
+          @n       BMP3XX_TEMP_OSR_SETTINGS[1], Temperature sampling×2, 16 bit / 0.0025 °C
+          @n       BMP3XX_TEMP_OSR_SETTINGS[2], Temperature sampling×4, 18 bit / 0.0012 °C
+          @n       BMP3XX_TEMP_OSR_SETTINGS[3], Temperature sampling×8, 19 bit / 0.0006 °C
+          @n       BMP3XX_TEMP_OSR_SETTINGS[4], Temperature sampling×16, 20 bit / 0.0003 °C
+          @n       BMP3XX_TEMP_OSR_SETTINGS[5], Temperature sampling×32, 21 bit / 0.00015 °C
         '''
-        self._write_reg(BMP3XX_OSR, (press_osr_set + temp_osr_set) & 0x3F)
+        self._write_reg(BMP3XX_OSR, (press_osr_set | temp_osr_set) & 0x3F)
 
     def filter_coefficient(self, iir_config_coef):
         '''!
-          @brief IIR filter coefficient setting（IIR filtering）
-          @param mode Set IIR filter coefficient, configurable mode:
-          @n       BMP3XX_IIR_CONFIG_COEF_0，BMP3XX_IIR_CONFIG_COEF_1，BMP3XX_IIR_CONFIG_COEF_3，
-          @n       BMP3XX_IIR_CONFIG_COEF_7，BMP3XX_IIR_CONFIG_COEF_15，BMP3XX_IIR_CONFIG_COEF_31，
-          @n       BMP3XX_IIR_CONFIG_COEF_63，BMP3XX_IIR_CONFIG_COEF_127
+          @brief IIR filter coefficient setting(IIR filtering)
+          @param iir_config_coef Set IIR filter coefficient, configurable mode:
+          @n       BMP3XX_IIR_CONFIG_COEF_0, BMP3XX_IIR_CONFIG_COEF_1, BMP3XX_IIR_CONFIG_COEF_3, 
+          @n       BMP3XX_IIR_CONFIG_COEF_7, BMP3XX_IIR_CONFIG_COEF_15, BMP3XX_IIR_CONFIG_COEF_31, 
+          @n       BMP3XX_IIR_CONFIG_COEF_63, BMP3XX_IIR_CONFIG_COEF_127
         '''
         # The IIR filter coefficient.
         self._write_reg(BMP3XX_IIR_CONFIG, iir_config_coef & 0x0E)
@@ -349,12 +349,12 @@ class DFRobot_BMP3XX(object):
     def set_output_data_rates(self, odr_set):
         '''!
           @brief Set output data rate in subdivision/sub-sampling mode (ODR:output data rates)
-          @param mode The output data rate needs to be set, configurable mode:
-          @n       BMP3XX_ODR_200_HZ，BMP3XX_ODR_100_HZ，BMP3XX_ODR_50_HZ，BMP3XX_ODR_25_HZ，BMP3XX_ODR_12P5_HZ，
-          @n       BMP3XX_ODR_6P25_HZ，BMP3XX_ODR_3P1_HZ，BMP3XX_ODR_1P5_HZ，BMP3XX_ODR_0P78_HZ，BMP3XX_ODR_0P39_HZ，
-          @n       BMP3XX_ODR_0P2_HZ，BMP3XX_ODR_0P1_HZ，BMP3XX_ODR_0P05_HZ，BMP3XX_ODR_0P02_HZ，BMP3XX_ODR_0P01_HZ，
-          @n       BMP3XX_ODR_0P006_HZ，BMP3XX_ODR_0P003_HZ，BMP3XX_ODR_0P0015_HZ
-          @return  返回配置结果
+          @param odr_set The output data rate needs to be set, configurable mode:
+          @n       BMP3XX_ODR_200_HZ, BMP3XX_ODR_100_HZ, BMP3XX_ODR_50_HZ, BMP3XX_ODR_25_HZ, BMP3XX_ODR_12P5_HZ, 
+          @n       BMP3XX_ODR_6P25_HZ, BMP3XX_ODR_3P1_HZ, BMP3XX_ODR_1P5_HZ, BMP3XX_ODR_0P78_HZ, BMP3XX_ODR_0P39_HZ, 
+          @n       BMP3XX_ODR_0P2_HZ, BMP3XX_ODR_0P1_HZ, BMP3XX_ODR_0P05_HZ, BMP3XX_ODR_0P02_HZ, BMP3XX_ODR_0P01_HZ, 
+          @n       BMP3XX_ODR_0P006_HZ, BMP3XX_ODR_0P003_HZ, BMP3XX_ODR_0P0015_HZ
+          @return  return configuration results
           @retval True indicate configuration succeed
           @retval False indicate configuration failed and remains its original state
         '''
@@ -369,6 +369,7 @@ class DFRobot_BMP3XX(object):
     def _uint8_to_int(self,num):
         '''!
           @brief Convert the incoming uint8 type data to int type
+          @param num Incoming uint8 type data
           @return data converted to int type
         '''
         if(num>127):
@@ -378,6 +379,7 @@ class DFRobot_BMP3XX(object):
     def _uint16_to_int(self,num):
         '''!
           @brief Convert the incoming uint16 type data to int type
+          @param num Incoming uint16 type data
           @return data converted to int type
         '''
         if(num>32767):
@@ -388,13 +390,13 @@ class DFRobot_BMP3XX(object):
         '''!
           @brief 6 commonly used sampling modes that allows users to configure easily
           @param mode:
-          @n       ULTRA_LOW_PRECISION，Ultra-low precision, suitable for monitoring weather (lowest power consumption), the power is mandatory mode.
-          @n       LOW_PRECISION，Low precision, suitable for random detection, power is normal mode
-          @n       NORMAL_PRECISION1，Normal precision 1, suitable for dynamic detection on handheld devices (e.g on mobile phones), power is normal mode
-          @n       NORMAL_PRECISION2，Normal precision 2, suitable for drones, power is normal mode
-          @n       HIGH_PRECISION，High precision, suitable for low-power handled devices （e.g mobile phones）, power is normal mode
-          @n       ULTRA_PRECISION，Ultra-high precision, suitable for indoor navigation, its acquisition rate will be extremely low, and the acquisition cycle is 1000 ms.
-          @return  返回配置结果
+          @n       ULTRA_LOW_PRECISION, Ultra-low precision, suitable for monitoring weather (lowest power consumption), the power is mandatory mode.
+          @n       LOW_PRECISION, Low precision, suitable for random detection, power is normal mode
+          @n       NORMAL_PRECISION1, Normal precision 1, suitable for dynamic detection on handheld devices (e.g on mobile phones), power is normal mode
+          @n       NORMAL_PRECISION2, Normal precision 2, suitable for drones, power is normal mode
+          @n       HIGH_PRECISION, High precision, suitable for low-power handled devices (e.g mobile phones), power is normal mode
+          @n       ULTRA_PRECISION, Ultra-high precision, suitable for indoor navigation, its acquisition rate will be extremely low, and the acquisition cycle is 1000 ms.
+          @return  return configuration results
           @retval True indicate configuration succeed
           @retval False indicate configuration failed and remains its original state
         '''
@@ -488,12 +490,12 @@ class DFRobot_BMP3XX(object):
     def _compensate_data(self, adc_p, adc_t):
         '''!
           @brief Use the obtained calibration data to calibrate and compensate the original value of the measured data
-          @param adc_p 用于存储压力测量数据的变量
-          @param adc_t 用于存储温度测量数据的变量
+          @param adc_p the variable for storing pressure measured data
+          @param adc_t the variable for storing temperature measured data
           @note Temperature unit: °C; Pressure unit: Pa
           @return Return the calibrated pressure data and the calibrated temperature data
         '''
-        # datasheet, p28，Trimming Coefficient listing in register map with size and sign attributes
+        # datasheet, p28, Trimming Coefficient listing in register map with size and sign attributes
         t1, t2, t3, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11 = self._data_calib
         #logger.info(self._data_calib)
 
@@ -567,7 +569,7 @@ class DFRobot_BMP3XX(object):
           @return The range of return value is: 0-511
         '''
         len = self._read_reg(BMP3XX_FIFO_LENGTH, 2)
-        return len[0] + (len[1] << 8)
+        return len[0] | (len[1] << 8)
 
     def empty_fifo(self):
         '''!
@@ -603,15 +605,15 @@ class DFRobot_BMP3XX(object):
 
 class DFRobot_BMP3XX_I2C(DFRobot_BMP3XX):
     '''!
-      @brief 定义DFRobot_BMP3XX_I2C基类
-      @details 用于以IIC协议驱动压力传感器
+      @brief define DFRobot_BMP3XX_I2C base class
+      @details for using IIC protocol to drive the pressure sensor
     '''
 
     def __init__(self, iic_addr=0x77, bus=1):
         '''!
           @brief Module I2C communication init
-          @param iic_addr IIC通信地址
-          @param bus IIC总线
+          @param iic_addr IIC communication address
+          @param bus IIC bus
         '''
         self._addr = iic_addr
         self.i2c = smbus.SMBus(bus)
@@ -639,17 +641,17 @@ class DFRobot_BMP3XX_I2C(DFRobot_BMP3XX):
 
 class DFRobot_BMP3XX_SPI(DFRobot_BMP3XX):
     '''!
-      @brief 定义DFRobot_BMP3XX_SPI基类
-      @details 用于以SPI协议驱动压力传感器
+      @brief define DFRobot_BMP3XX_SPI base class
+      @details for using SPI protocol to drive the pressure sensor
     '''
 
     def __init__(self, cs=8, bus=0, dev=0, speed=8000000):
         '''!
           @brief Module SPI communication init
-          @param cs cs片选引脚
-          @param bus SPI总线
-          @param dev SPI设备号
-          @param speed SPI通信频率
+          @param cs cs chip select pin
+          @param bus SPI bus
+          @param dev SPI device number
+          @param speed SPI communication frequency
         '''
         self._cs = cs
         GPIO.setmode(GPIO.BCM)

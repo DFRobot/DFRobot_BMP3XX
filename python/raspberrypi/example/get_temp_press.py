@@ -39,7 +39,7 @@ def setup():
     #      LOW_PRECISION,Low precision, suitable for random detection, power is normal mode
     #      NORMAL_PRECISION1, Normal precision 1, suitable for dynamic detection on handheld devices (e.g on mobile phones), power is normal mode
     #      NORMAL_PRECISION2, Normal precision 2, suitable for drones, power is normal mode
-    #      HIGH_PRECISION, High precision, suitable for low-power handled devices （e.g mobile phones）, power is normal mode
+    #      HIGH_PRECISION, High precision, suitable for low-power handled devices (e.g mobile phones), power is normal mode
     #      ULTRA_PRECISION, Ultra-high precision, suitable for indoor navigation, its acquisition rate will be extremely low, and the acquisition cycle is 1000 ms.
   '''
   while(sensor.set_common_sampling_mode(ULTRA_PRECISION) == False):

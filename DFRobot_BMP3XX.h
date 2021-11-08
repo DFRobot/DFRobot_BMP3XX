@@ -21,7 +21,7 @@
 #include <SPI.h>
 
 
-// #define ENABLE_DBG   //!< 打开这个宏, 可以看到程序的详细运行过程
+// #define ENABLE_DBG   //!< open this macro and you can see the details of the program
 #ifdef ENABLE_DBG
   #define DBG(...) {Serial.print("[");Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
@@ -131,15 +131,15 @@ class DFRobot_BMP3XX
 {
 public:
 #define ERR_OK             0   // No error
-#define ERR_DATA_BUS      (-1)   // 数据总线错误
-#define ERR_IC_VERSION    (-2)   // 芯片版本不匹配
+#define ERR_DATA_BUS      (-1)   // data bus error
+#define ERR_IC_VERSION    (-2)   // the chip version not match
 
-/***************** 寄存器配置等结构体 ******************************/
+/***************** structs like register configuration ******************************/
 
   /**
    * @struct sFIFOMode1_t
-   * @brief “FIFO_CONFIG_1”(0x17)寄存器包含FIFO帧内容配置。
-   * @note 寄存器结构:
+   * @brief “FIFO_CONFIG_1”(0x17)register includes FIFO frame content configuration
+   * @note register struct:
    * @n ----------------------------------------------------------------------------------------------------
    * @n |  b7  |  b6  |  b5  |      b4      |      b3       |      b2      |        b1         |    b0     |
    * @n ----------------------------------------------------------------------------------------------------
@@ -148,18 +148,18 @@ public:
    */
   typedef struct
   {
-    uint8_t   FIFOMode: 1; /**< 上电为0,  0: 禁用FIFO模式, 1: 启用FIFO模式 */
-    uint8_t   FIFOStopOnFull: 1; /**< 上电为1,  0: 当FIFO已满时继续写入, 1: 当FIFO已满时停止写入 */
-    uint8_t   FIFOTimeEN: 1; /**< 上电为0,  0: 禁用在最后一个有效数据帧之后返回传感器时间帧,  1: 启用返回传感器时间帧 */
-    uint8_t   FIFOPressEN: 1; /**< 上电为0,  0: 禁用压力数据缓存, 1: 启用压力数据缓存 */
-    uint8_t   FIFOTempEN: 1; /**< 上电为0,  0: 禁用温度数据缓存, 1: 启用温度数据缓存 */
-    uint8_t   reserved: 3; /**< 保留位 */
-  } __attribute__ ((packed)) sFIFOMode1_t; // 紧凑的结构体变量(知识点: __attribute__ ((packed))是避免字节对齐, 紧凑存放), 我们用来保存寄存器相关的内容。
+    uint8_t   FIFOMode: 1; /**< power up is 0,  0: disable FIFO mode, 1: enable FIFO mode */
+    uint8_t   FIFOStopOnFull: 1; /**< power up is 1,  0: continue writing when FIFO on full, 1: stop writing when FIFO on full */
+    uint8_t   FIFOTimeEN: 1; /**< power up is 0,  0: disable the function of returning sensor time frame after the last valid data frame,  1: enable the function of returning sensor time frame */
+    uint8_t   FIFOPressEN: 1; /**< power up is 0,  0: disable pressure data buffer, 1: enable pressure data buffer */
+    uint8_t   FIFOTempEN: 1; /**< power up is 0,  0: disable temperature data buffer, 1: enable temperature data buffer */
+    uint8_t   reserved: 3; /**< reserved bit */
+  } __attribute__ ((packed)) sFIFOMode1_t; // packed struct variables(knowledge point: __attribute__ ((packed))is to avoid byte alignment and ensure packed storage), we use the variables to store register related content
 
   /**
    * @struct sFIFOMode2_t
-   * @brief “FIFO_CONFIG_2”(0x18)寄存器扩展了FIFO_CONFIG_1寄存器。
-   * @note 寄存器结构:
+   * @brief “FIFO_CONFIG_2”(0x18)the register expands FIFO_CONFIG_1 register
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7    |   b6    |    b5    |    b4    |    b3    |    b2     |    b1     |    b0    |
    * @n ------------------------------------------------------------------------------------------
@@ -168,16 +168,16 @@ public:
    */
   typedef struct
   {
-    uint8_t   FIFOSubsampling: 3; /**< 压力和温度数据的FIFO下采样选择, 系数为2^FIFOSubsampling, 上电为2 */
-    uint8_t   dataSelect: 2; /**< 对于压力和温度, 选择数据源, 上电为0,  0: 未过滤数据(补偿或未补偿),  1: 过滤数据(补偿或未补偿),  2or3: 保留, 与“unfilt”相同 */
-    uint8_t   reserved: 3; /**< 保留位 */
+    uint8_t   FIFOSubsampling: 3; /**< sampling select in pressure & temperature data FIFO, coefficient is 2^FIFOSubsampling, power up is 2 */
+    uint8_t   dataSelect: 2; /**< select data source of pressure and temperature, power up is 0,  0: unfiltered data(compensated or uncompensated),  1: filtered data(compensated or uncompensated),  2or3: reserve, same as "unfilt" */
+    uint8_t   reserved: 3; /**< reserved bit */
   } __attribute__ ((packed)) sFIFOMode2_t;
 
   /**
    * @struct sIntMode_t
-   * @brief 可以在“INT_CTRL”(0x19)寄存器中设置中断配置。
-   * @details 它影响INT_STATUS寄存器和INT引脚。
-   * @note 寄存器结构:
+   * @brief interrupt configuration can be set in "INT_CTRL"(0x19) register
+   * @details it affects INT_STATUS register and INT pin
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7    |   b6    |    b5    |    b4    |    b3    |    b2     |    b1     |    b0    |
    * @n ------------------------------------------------------------------------------------------
@@ -186,20 +186,20 @@ public:
    */
   typedef struct
   {
-    uint8_t   INTOD: 1; /**< 引脚输出模式, 上电为0,  0: 推挽,  1: 开漏 */
-    uint8_t   INTActiveLevel: 1; /**< 引脚电平, 上电为1,  0: 低电平有效,  1: 高电平有效 */
-    uint8_t   INTLatch: 1; /**< 启用INT引脚和INT_STATUS寄存器锁定中断, 上电为0,  0: 禁用,  1: 启用 */
-    uint8_t   INTFWTMEN: 1; /**< 启用INT引脚和INT_STATUS启用FIFO水位到达中断, 上电为0,  0: 禁用,  1: 启用 */
-    uint8_t   INTFFullEN: 1; /**< 启用INT引脚和INT_STATUS启用FIFO全部中断, 上电为0,  0: 禁用,  1: 启用 */
-    uint8_t   INTInitialLevel: 1; /**< 上电为0,  0: low,  1: high */
-    uint8_t   INTDrdyEN: 1; /**< 启用INT引脚和INT_STATUS温度/压力数据准备中断, 上电为0,  0: 禁用,  1: 启用 */
-    uint8_t   reserved: 1; /**< 保留位 */
+    uint8_t   INTOD: 1; /**< pin output mode, power up is 0,  0: push-pull,  1: open-drain */
+    uint8_t   INTActiveLevel: 1; /**< pin level, power up is 1,  0: active low,  1: active high */
+    uint8_t   INTLatch: 1; /**< enable INT pin and INT_STATUS register lock-in interrupt, power up is 0,  0: disable,  1: enable */
+    uint8_t   INTFWTMEN: 1; /**< enable INT pin and INT_STATUS enable FIFO water level interrupt, power up is 0,  0: disable,  1: enable */
+    uint8_t   INTFFullEN: 1; /**< enable INT pin and INT_STATUS enable FIFO all interrupt, power up is 0,  0: disable,  1: enable */
+    uint8_t   INTInitialLevel: 1; /**< power up is 0,  0: low,  1: high */
+    uint8_t   INTDrdyEN: 1; /**< enable INT pin and INT_STATUS temperature/pressure data ready interrupt, power up is 0,  0: disable,  1: enable */
+    uint8_t   reserved: 1; /**< reserved bit */
   } __attribute__ ((packed)) sIntMode_t;
 
   /**
    * @struct sSerialMode_t
-   * @brief “IF_CONF”(0x1A)寄存器控制串行接口设置。
-   * @note 寄存器结构:
+   * @brief “IF_CONF”(0x1A)register serial port control setting
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7   |    b6   |    b5   |    b4   |    b3   |      b2     |     b1      |    b0    |
    * @n ------------------------------------------------------------------------------------------
@@ -208,20 +208,20 @@ public:
    */
   typedef struct
   {
-    uint8_t   SPI3: 1; /**< 上电为0,  0: SPI四线模式,  1: SPI三线模式 */
-    uint8_t   I2CWDTEN: 1; /**< 上电为0,  0: 禁用I2C看门狗定时器,  1: 启用I2C看门狗定时器 */
-    uint8_t   I2CWDTSel: 1; /**< 上电为0,  0: I2C看门狗定时器在1.25ms后超时,  1: I2C看门狗定时器在40ms后超时 */
-    uint8_t   reserved: 5; /**< 保留位 */
+    uint8_t   SPI3: 1; /**< power up is 0,  0: SPI four-wire mode,  1: SPI three-wire mode */
+    uint8_t   I2CWDTEN: 1; /**< power up is 0,  0: disable I2C WDT,  1: enable I2C WDT */
+    uint8_t   I2CWDTSel: 1; /**< power up is 0,  0: set I2C WDT timeout value to 1.25ms,  1: set I2C WDT timeout value to 40ms */
+    uint8_t   reserved: 5; /**< reserved bit */
   } __attribute__ ((packed)) sSerialMode_t;
 
   /**
    * @struct sPWRCTRL_t
-   * @brief “PWR_CTRL”(0x1B)寄存器启用或禁用压力和温度测量。
-   * @details 测量模式可以在这里设置: 
-   * @n 睡眠模式: 上电复位后默认设置为睡眠模式。在睡眠模式下, 不执行任何测量, 并且功耗最少。所有寄存器均可访问；可以读取芯片ID和补偿系数。
-   * @n 强制模式: 在强制模式下, 根据选择的测量和滤波选项进行单个测量。测量完成后, 传感器返回睡眠模式, 测量结果可从数据寄存器中获得。
-   * @n 正常模式: 在测量周期和待机周期之间连续循环。测量速率在odr_sel寄存器中设置, 可以选择不同的采样频率Fsampling=200Hz的预分频器。
-   * @note 寄存器结构:
+   * @brief “PWR_CTRL”(0x1B)the register enable or disable pressure and temperature measurement
+   * @details measurement mode can be set here: 
+   * @n Sleep mode: It will be in sleep mode by default after power-on reset. In this mode, no measurement is performed and power consumption is minimal. All registers are accessible for reading the chip ID and compensation coefficient.
+   * @n Forced mode: In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the measurement is completed, the sensor will return to sleep mode, and the measurement result can be obtained in the register.
+   * @n Normal mode: Continuously loop between the measurement period and the standby period. Measurement rate is set in odr_sel register, and prescalers with different sampling frequency Fsampling=200Hz can be selected.
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7    |    b6    |    b5    |    b4    |    b3    |    b2    |    b1     |    b0    |
    * @n ------------------------------------------------------------------------------------------
@@ -230,33 +230,33 @@ public:
    */
   typedef struct
   {
-    uint8_t   pressEN: 1; /**< 上电为0,  0: 禁用压力传感,  1: 启用压力传感 */
-    uint8_t   tempEN: 1; /**< 上电为0,  0: 禁用温度传感,  1: 启用温度传感 */
-    uint8_t   reserved1: 2; /**< 保留位 */
-    uint8_t   powerMode: 2; /**< 上电为0,  0: 睡眠模式,  1or2: 强制模式,  3: 正常模式 */
-    uint8_t   reserved2: 2; /**< 保留位 */
+    uint8_t   pressEN: 1; /**< power up is 0,  0: disable pressure sensing,  1: enable pressure sensing */
+    uint8_t   tempEN: 1; /**< power up is 0,  0: disable temperature sensing,  1: enable temperature sensing */
+    uint8_t   reserved1: 2; /**< reserved bit */
+    uint8_t   powerMode: 2; /**< power up is 0,  0: sleep mode,  1or2: enforcing mode,  3: normal mode */
+    uint8_t   reserved2: 2; /**< reserved bit */
   } __attribute__ ((packed)) sPWRCTRL_t;
 
   /**
    * @struct sOverSamplingMode_t
-   * @brief “OSR”(0x1C)寄存器控制压力和温度测量的过采样设置。
-   * @details 温度压力过采样模式的6种配置:
+   * @brief “OSR”(0x1C)oversampling setting of register control pressure and temperature measurement 
+   * @details 6 configurations of temperature and pressure oversampling mode:
    * @n ------------------------------------------------------------------------------------------
-   * @n |   过采样设置   |   osr_p    |  压力过采样  |     典型压力解析度     |  推荐温度过采样  |
+   * @n |   oversampling setting   |   osr_p    |  pressure oversampling  |     typical pressure resolution     |  recommended temperature oversampling  |
    * @n ------------------------------------------------------------------------------------------
-   * @n |    超低功耗    |    000     |      ×1      |    16 bit / 2.64 Pa    |        ×1        |
+   * @n |    ultra-low power consumption    |    000     |      ×1      |    16 bit / 2.64 Pa    |        ×1        |
    * @n ------------------------------------------------------------------------------------------
-   * @n |     低功耗     |    001     |      ×2      |    16 bit / 2.64 Pa    |        ×1        |
+   * @n |     low power consumption     |    001     |      ×2      |    16 bit / 2.64 Pa    |        ×1        |
    * @n ------------------------------------------------------------------------------------------
-   * @n |   标准分辨率   |    010     |      ×4      |    18 bit / 0.66 Pa    |        ×1        |
+   * @n |   standard resolution  |    010     |      ×4      |    18 bit / 0.66 Pa    |        ×1        |
    * @n ------------------------------------------------------------------------------------------
-   * @n |    高分辨率    |    011     |      ×8      |    19 bit / 0.33 Pa    |        ×1        |
+   * @n |    high resolution    |    011     |      ×8      |    19 bit / 0.33 Pa    |        ×1        |
    * @n ------------------------------------------------------------------------------------------
-   * @n |   超高分辨率   |    100     |      ×16     |    20 bit / 0.17 Pa    |        ×2        |
+   * @n |   ultrahigh resolution   |    100     |      ×16     |    20 bit / 0.17 Pa    |        ×2        |
    * @n ------------------------------------------------------------------------------------------
-   * @n |   最高分辨率   |    101     |      ×32     |    21 bit / 0.085 Pa   |        ×2        |
+   * @n |   highest resolution   |    101     |      ×32     |    21 bit / 0.085 Pa   |        ×2        |
    * @n ------------------------------------------------------------------------------------------
-   * @note 寄存器结构:
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7    |    b6    |    b5    |    b4    |    b3    |    b2    |    b1     |    b0    |
    * @n ------------------------------------------------------------------------------------------
@@ -265,16 +265,16 @@ public:
    */
   typedef struct
   {
-    uint8_t   OSRPress: 3; /**< 上电为0,  可设置6种压力过采样模式 */
-    uint8_t   OSRTemp: 3; /**< 上电为0,  温度也有六种, 设置和压力类似, 但是建议使用表中推荐的温度过采样模式 */
-    uint8_t   reserved: 2; /**< 保留位 */
+    uint8_t   OSRPress: 3; /**< power up is 0,  6 pressure oversampling modes can be set */
+    uint8_t   OSRTemp: 3; /**< power up is 0,  temperature mode is also available in 6 settings, similar to pressure mode setting, but it is recommended to use the temperature oversampling mode recommended in the table */
+    uint8_t   reserved: 2; /**< reserved bit */
   } __attribute__ ((packed)) sOverSamplingMode_t;
 
-/***************** 校准补偿数据结构体 ******************************/
+/***************** the struct to calibrate compensation data ******************************/
 
   /**
    * @struct sCalibData_t
-   * @brief 缓存寄存器里面校准补偿数据的结构体
+   * @brief buffer the struct of calibrating compensation data in register
    */
   typedef struct
   {
@@ -297,7 +297,7 @@ public:
 
   /**
    * @struct sQuantizedCalibData_t
-   * @brief 量化调整后的补偿数据
+   * @brief quantized compensation data
    */
   typedef struct
   {
@@ -318,12 +318,12 @@ public:
     float tempLin;
   } sQuantizedCalibData_t;
 
-/***************** 设备状态信息结构体 ******************************/
+/***************** device status information struct ******************************/
 
   /**
    * @struct sSensorErrorStatus_t
-   * @brief 传感器错误情况在“ERR_REG”寄存器中报告
-   * @note 寄存器结构:
+   * @brief sensor error cases are reported in "ERR_REG" register
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7   |    b6   |    b5   |    b4   |    b3   |      b2    |     b1    |     b0      |
    * @n ------------------------------------------------------------------------------------------
@@ -332,16 +332,16 @@ public:
    */
   typedef struct
   {
-    uint8_t   fatalError: 1; /**< 致命错误, 不可恢复的错误 */
-    uint8_t   CMDError: 1; /**< 命令执行失败, 在阅读后清零 */
-    uint8_t   configError: 1; /**< 检测到传感器配置错误(仅在正常模式下工作), 在阅读后清零 */
-    uint8_t   reserved: 5; /**< 保留位 */
+    uint8_t   fatalError: 1; /**< fatal error, unrecoverable error */
+    uint8_t   CMDError: 1; /**< the command fails to be executed and is cleared after being read */
+    uint8_t   configError: 1; /**< detect the sensor configuration error (only work in normal mode), and it's cleared after being read */
+    uint8_t   reserved: 5; /**< reserved bit */
   } __attribute__ ((packed)) sSensorErrorStatus_t;
 
   /**
    * @struct sSensorStatus_t
-   * @brief 传感器状态标志缓存在“STATUS”寄存器中
-   * @note 寄存器结构:
+   * @brief the sensor status is buffered in "STATUS" register
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |      b7     |     b6    |     b5     |    b4   |    b3   |    b2   |    b1   |    b0   |
    * @n ------------------------------------------------------------------------------------------
@@ -350,17 +350,17 @@ public:
    */
   typedef struct
   {
-    uint8_t   reserved1: 4; /**< 保留位 */
-    uint8_t   CMDReady: 1; /**< CMD解码器状态 */
-    uint8_t   pressDrdy: 1; /**< 压力数据准备好 */
-    uint8_t   tempDrdy: 1; /**< 温度数据准备好 */
-    uint8_t   reserved2: 1; /**< 保留位 */
+    uint8_t   reserved1: 4; /**< reserved bit */
+    uint8_t   CMDReady: 1; /**< CMD decoder status */
+    uint8_t   pressDrdy: 1; /**< pressure data ready */
+    uint8_t   tempDrdy: 1; /**< temperature data ready */
+    uint8_t   reserved2: 1; /**< reserved bit */
   } __attribute__ ((packed)) sSensorStatus_t;
 
   /**
    * @struct sSensorEvent_t
-   * @brief “EVENT”寄存器包含传感器状态标志
-   * @note 寄存器结构:
+   * @brief "EVENT" register includes sensor status
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |    b7   |    b6   |   b5   |   b4   |   b3   |   b2   |      b1      |       b0       |
    * @n ------------------------------------------------------------------------------------------
@@ -369,15 +369,15 @@ public:
    */
   typedef struct
   {
-    uint8_t   porDetected: 1; /**< 设备上电或软复位后被置“1”, 在阅读后清零 */
-    uint8_t   itfActPt: 1; /**< 当在压力或温度转换期间发生串行接口事务时被置“1”, 在阅读后清零 */
-    uint8_t   reserved: 6; /**< 保留位 */
+    uint8_t   porDetected: 1; /**< the device is set to "1" after power on or soft reset, and cleared after reading */
+    uint8_t   itfActPt: 1; /**< the device is set to "1" when a serial port transaction occurs during pressure or temperature conversion, and is cleared after reading */
+    uint8_t   reserved: 6; /**< reserved bit */
   } __attribute__ ((packed)) sSensorEvent_t;
 
   /**
    * @struct sSensorINTStatus_t
-   * @brief “INT_STATUS”寄存器显示中断状态, 并在读取后被清除。
-   * @note 寄存器结构:
+   * @brief "INT_STATUS" register displays interrupt status and it's cleared after reading
+   * @note register struct:
    * @n ------------------------------------------------------------------------------------------
    * @n |   b7  |   b6   |    b5   |    b4   |    b3   |      b2    |      b1     |      b0      |
    * @n ------------------------------------------------------------------------------------------
@@ -386,36 +386,36 @@ public:
    */
   typedef struct
   {
-    uint8_t   fwtmINT: 1; /**< FIFO水位中断 */
-    uint8_t   ffullINT: 1; /**< FIFO存满中断 */
-    uint8_t   reserved1: 1; /**< 保留位 */
-    uint8_t   dataReady: 1; /**< 数据准备好中断 */
-    uint8_t   reserved2: 4; /**< 保留位 */
+    uint8_t   fwtmINT: 1; /**< FIFO water level interrupt */
+    uint8_t   ffullINT: 1; /**< FIFO full interrupt */
+    uint8_t   reserved1: 1; /**< reserved bit */
+    uint8_t   dataReady: 1; /**< data ready interrupt */
+    uint8_t   reserved2: 4; /**< reserved bit */
   } __attribute__ ((packed)) sSensorINTStatus_t;
 
   /**
    * @struct sBMP3XXDeviceInfo_t
-   * @brief BMP3XX设备信息结构体
+   * @brief BMP3XX device information struct
    */
   typedef struct
   {
-    /* 芯片ID */
+    /* chip ID */
     uint8_t chipID;
 
-    /* 测量数据的校准补偿系数 */
-    sCalibData_t regCalibData;   /**< 储存寄存器读到的校准数据 */
-    sQuantizedCalibData_t quantizedCalibData;   /**< 缓存量化后的校准数据 */
-    float seaLevelPressPa;   /**< 计算海拔高度时使用的海平面大气压值 */
+    /* calibration compensation coefficient of measured data */
+    sCalibData_t regCalibData;   /**< store the calibration data read by register */
+    sQuantizedCalibData_t quantizedCalibData;   /**< buffer the quantized calibration data */
+    float seaLevelPressPa;   /**< sea level atmospheric pressure used to calculate altitude */
 
-    /* 传感器配置数据 */
-    sFIFOMode1_t FIFOMode1;   /**< 寄存器配置的相关结构体 */
+    /* sensor configuration data */
+    sFIFOMode1_t FIFOMode1;   /**< the associated struct for register configuration */
     sFIFOMode2_t FIFOMode2;
     sIntMode_t intMode;
     sSerialMode_t serialMode;
     sPWRCTRL_t PWRMode;
     sOverSamplingMode_t overSamplingMode;
 
-    /* 传感器状态数据 */
+    /* sensor status data */
     sSensorErrorStatus_t errStatus;
     sSensorStatus_t sensorStatus;
     sSensorEvent_t sensorEvent;
@@ -423,61 +423,61 @@ public:
 
   } sBMP3XXDeviceInfo_t;
 
-/***************** 寄存器每一位详细配置枚举数据类型 ******************************/
+/***************** enumerate data types of every register detailed configuration ******************************/
 
   /**
    * @enum  eFIFOMode_t
-   * @brief  是否启用FIFO缓存
+   * @brief  whether to enable FIFO buffer or not
    */
   typedef enum
   {
-    eFIFODIS = 0,   /**< 禁用FIFO */
-    eFIFOEN,   /**< 启用FIFO */
+    eFIFODIS = 0,   /**< disable FIFO */
+    eFIFOEN,   /**< enable FIFO */
   }eFIFOMode_t;
 
   /**
    * @enum  eFIFOStopOnFull_t
-   * @brief  当FIFO已满时是否继续写入
+   * @brief  whether to continue writing when FIFO on full
    */
   typedef enum
   {
-    eFIFOStopOnFullDIS = 0<<1,   /**< 禁用: 写满时继续写入 */
-    eFIFOStopOnFullEN = 1<<1,   /**< 启用: 写满时停止写入 */
+    eFIFOStopOnFullDIS = 0<<1,   /**< disable: continue writing when on full */
+    eFIFOStopOnFullEN = 1<<1,   /**< enable: stop writing when on full */
   }eFIFOStopOnFull_t;
 
   /**
    * @enum  eFIFOTime_t
-   * @brief  是否在最后一个有效数据帧之后返回传感器时间帧
+   * @brief  whether to return sensor time frame after the last valid data frame
    */
   typedef enum
   {
-    eFIFOTimeDIS = 0<<2,   /**< 禁用 */
-    eFIFOTimeEN = 1<<2,   /**< 启用 */
+    eFIFOTimeDIS = 0<<2,   /**< disable */
+    eFIFOTimeEN = 1<<2,   /**< enable */
   }eFIFOTime_t;
 
   /**
    * @enum  eFIFOPress_t
-   * @brief  是否启用压力数据缓存
+   * @brief  whether to enable pressure data buffer
    */
   typedef enum
   {
-    eFIFOPressDIS = 0<<3,   /**< 禁用压力数据缓存 */
-    eFIFOPressEN = 1<<3,   /**< 启用压力数据缓存 */
+    eFIFOPressDIS = 0<<3,   /**< disable pressure data buffer */
+    eFIFOPressEN = 1<<3,   /**< enable pressure data buffer */
   }eFIFOPress_t;
 
   /**
    * @enum  eFIFOTemp_t
-   * @brief  是否启用温度数据缓存
+   * @brief  whether to enable temperature data buffer
    */
   typedef enum
   {
-    eFIFOTempDIS = 0<<4,   /**< 禁用温度数据缓存 */
-    eFIFOTempEN = 1<<4,   /**< 启用温度数据缓存 */
+    eFIFOTempDIS = 0<<4,   /**< disable temperature data buffer */
+    eFIFOTempEN = 1<<4,   /**< enable temperature data buffer */
   }eFIFOTemp_t;
 
   /**
    * @enum  eFIFOSubsampling_t
-   * @brief  压力和温度数据的FIFO下采样选择, 系数为2^FIFOSubsampling, 上电为2
+   * @brief  sampling select in pressure & temperature data FIFO, coefficient is 2^FIFOSubsampling, power up is 2
    */
   typedef enum
   {
@@ -493,317 +493,317 @@ public:
 
   /**
    * @enum  eFIFODataSelect_t
-   * @brief  对于压力和温度, 选择数据源, 上电为0
+   * @brief  select data source of pressure and temperature, power up is 0
    */
   typedef enum
   {
-    eFIFODataSelectDIS = 0<<3,   /**< 未过滤数据(补偿或未补偿) */
-    eFIFODataSelectEN = 1<<3,   /**< 过滤数据(补偿或未补偿) */
-    eFIFODataSelectNO2 = 2<<3,    /**< 保留, 与“unfilt”相同 */
-    eFIFODataSelectNO3 = 3<<3,    /**< 保留, 与“unfilt”相同 */
+    eFIFODataSelectDIS = 0<<3,   /**< unfiltered data (compensated or uncompensated) */
+    eFIFODataSelectEN = 1<<3,   /**< filtered data (compensated or uncompensated) */
+    eFIFODataSelectNO2 = 2<<3,    /**< reserve, same as "unfilt" */
+    eFIFODataSelectNO3 = 3<<3,    /**< reserve, same as "unfilt" */
   }eFIFODataSelect_t;
 
   /**
    * @enum  eINTPinMode_t
-   * @brief  中断引脚输出模式
+   * @brief  interrupt pin output mode
    */
   typedef enum
   {
-    eINTPinPP = 0,   /**< 推挽 */
-    eINTPinOD,   /**< 开漏 */
+    eINTPinPP = 0,   /**< push-pull */
+    eINTPinOD,   /**< open-drain */
   }eINTPinMode_t;
 
   /**
    * @enum  eINTPinActiveLevel_t
-   * @brief  中断引脚信号电平
+   * @brief  interrupt pin signal level
    */
   typedef enum
   {
-    eINTPinActiveLevelLow = 0<<1,   /**< 低电平有效 */
-    eINTPinActiveLevelHigh = 1<<1,   /**< 高电平有效 */
+    eINTPinActiveLevelLow = 0<<1,   /**< active low */
+    eINTPinActiveLevelHigh = 1<<1,   /**< active high */
   }eINTPinActiveLevel_t;
 
   /**
    * @enum  eINTLatch_t
-   * @brief  是否启用INT引脚和INT_STATUS寄存器锁定中断
+   * @brief  whether to enable INT pin and INT_STATUS register lock-in interrupt
    */
   typedef enum
   {
-    eINTLatchDIS = 0<<2,   /**< 禁用 */
-    eINTLatchEN = 1<<2,   /**< 启用 */
+    eINTLatchDIS = 0<<2,   /**< disable */
+    eINTLatchEN = 1<<2,   /**< enable */
   }eINTLatch_t;
 
   /**
-   * @enum  eINTFWTM_t
-   * @brief  是否启用INT引脚和INT_STATUS启用FIFO水位到达中断
+   * @enum  eIntFWtm_t
+   * @brief  whether to enable INT pin and for INT_STATUS to enable FIFO water level interrupt
    */
   typedef enum
   {
-    eINTFWTMDIS = 0<<3,   /**< 禁用 */
-    eINTFWTMEN = 1<<3,   /**< 启用 */
-  }eINTFWTM_t;
+    eIntFWtmDis = 0<<3,   /**< disable */
+    eIntFWtmEn = 1<<3,   /**< enable */
+  }eIntFWtm_t;
 
   /**
    * @enum  eINTFFull_t
-   * @brief  是否启用INT引脚和INT_STATUS启用FIFO全部中断
+   * @brief  whether to enable INT pin and for INT_STATUS to enable FIFO all interrupt
    */
   typedef enum
   {
-    eINTFFullDIS = 0<<4,   /**< 禁用 */
-    eINTFFullEN = 1<<4,   /**< 启用 */
+    eINTFFullDIS = 0<<4,   /**< disable */
+    eINTFFullEN = 1<<4,   /**< enable */
   }eINTFFull_t;
 
   /**
    * @enum  eINTInitialLevel_t
-   * @brief  中断数据引脚电平
+   * @brief  interrupt data pin level
    */
   typedef enum
   {
-    eINTInitialLevelLOW = 0<<5,   /**< 低电平 */
-    eINTInitialLevelHIGH = 1<<5,   /**< 高电平 */
+    eINTInitialLevelLOW = 0<<5,   /**< low level */
+    eINTInitialLevelHIGH = 1<<5,   /**< high level */
   }eINTInitialLevel_t;
 
   /**
    * @enum  eINTDataDrdy_t
-   * @brief  是否启用INT引脚和INT_STATUS温度/压力数据准备中断
+   * @brief  whether to enable INT pin and INT_STATUS temperature/pressure data ready interrupt
    */
   typedef enum
   {
-    eINTDataDrdyDIS = 0<<6,   /**< 禁用 */
-    eINTDataDrdyEN = 1<<6,   /**< 启用 */
+    eINTDataDrdyDIS = 0<<6,   /**< disable */
+    eINTDataDrdyEN = 1<<6,   /**< enable */
   }eINTDataDrdy_t;
 
   /**
    * @enum  eSPISerialMode_t
-   * @brief  SPI通信模式选择
+   * @brief  SPI communication mode select
    */
   typedef enum
   {
-    eSerialModeSPI4 = 0,   /**< SPI四线模式 */
-    eSerialModeSPI3,   /**< SPI三线模式 */
+    eSerialModeSPI4 = 0,   /**< SPI four-wire mode */
+    eSerialModeSPI3,   /**< SPI three-wire mode */
   }eSPISerialMode_t;
 
   /**
    * @enum  eI2CWDT_t
-   * @brief  是否启用I2C看门狗定时器
+   * @brief  whether to enable I2C WDT
    */
   typedef enum
   {
-    eI2CWDTDIS = 0<<1,   /**< 禁用 */
-    eI2CWDTEN = 1<<1,   /**< 启用 */
+    eI2CWDTDIS = 0<<1,   /**< disable */
+    eI2CWDTEN = 1<<1,   /**< enable */
   }eI2CWDT_t;
 
   /**
    * @enum  eI2CWDTSel_t
-   * @brief  配置I2C看门狗定时器
+   * @brief  configure I2C WDT
    */
   typedef enum
   {
-    eI2CWDTSel1p25 = 0<<2,   /**< I2C看门狗定时器在1.25ms后超时 */
-    eI2CWDTSel40 = 1<<2,   /**< I2C看门狗定时器在40ms后超时 */
+    eI2CWDTSel1p25 = 0<<2,   /**< set I2C WDT timeout value to 1.25ms */
+    eI2CWDTSel40 = 1<<2,   /**< set I2C WDT timeout value to 40ms */
   }eI2CWDTSel_t;
 
   /**
    * @enum  ePressMeasure_t
-   * @brief  是否启用压力传感
+   * @brief  whether to enable pressure sensing
    */
   typedef enum
   {
-    ePressDIS = 0, /**< 禁用压力传感 */
-    ePressEN,   /**< 启用压力传感 */
+    ePressDIS = 0, /**< disable pressure sensing */
+    ePressEN,   /**< enable pressure sensing */
   }ePressMeasure_t;
 
   /**
    * @enum  eTempMeasure_t
-   * @brief  是否启用温度传感
+   * @brief  whether to enable temperature sensing
    */
   typedef enum
   {
-    eTempDIS = 0<<1, /**< 禁用温度传感 */
-    eTempEN = 1<<1,   /**< 启用温度传感 */
+    eTempDIS = 0<<1, /**< disable temperature sensing */
+    eTempEN = 1<<1,   /**< enable temperature sensing */
   }eTempMeasure_t;
 
   /**
    * @enum  ePowerMode_t
-   * @brief  测量(电源)模式设置
+   * @brief  measurement (power supply) mode setting
    */
   typedef enum
   {
-    eSleepMode = 0<<4,   /**< 睡眠模式: 上电复位后默认设置为睡眠模式。在睡眠模式下, 不执行任何测量, 并且功耗最少。所有寄存器均可访问；可以读取芯片ID和补偿系数。 */
-    eForcedMode = 1<<4, /**< 强制模式: 在强制模式下, 根据选择的测量和滤波选项进行单个测量。测量完成后, 传感器返回睡眠模式, 测量结果可从数据寄存器中获得。 */
-    eForcedMode2 = 2<<4, /**< 强制模式: 在强制模式下, 根据选择的测量和滤波选项进行单个测量。测量完成后, 传感器返回睡眠模式, 测量结果可从数据寄存器中获得。 */
-    eNormalMode = 3<<4,  /**< 正常模式: 在测量周期和待机周期之间连续循环。输出数据率(output data rates)与ODR模式设置有关。 */
+    eSleepMode = 0<<4,   /**< Sleep mode: It will be in sleep mode by default after power-on reset. In this mode, no measurement is performed and power consumption is minimal. All registers are accessible for reading the chip ID and compensation coefficient. */
+    eForcedMode = 1<<4, /**< Forced mode: In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the measurement is completed, the sensor will return to sleep mode, and the measurement result can be obtained in the register. */
+    eForcedMode2 = 2<<4, /**< Forced mode: In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the measurement is completed, the sensor will return to sleep mode, and the measurement result can be obtained in the register. */
+    eNormalMode = 3<<4,  /**< Normal mode: Continuously loop between the measurement period and the standby period, output data rates are affected by ODR mode setting. */
   }ePowerMode_t;
 
   /**
    * @enum  ePressOSRMode_t
-   * @brief  6种压力过采样模式
+   * @brief  6 pressure oversampling modes
    */
   typedef enum
   {
-    ePressOSRMode1 = 0,   /**< 采样×1, 16 bit / 2.64 Pa(推荐温度过采样×1) */
-    ePressOSRMode2,   /**< 采样×2, 16 bit / 2.64 Pa(推荐温度过采样×1) */
-    ePressOSRMode4,   /**< 采样×4, 18 bit / 0.66 Pa(推荐温度过采样×1) */
-    ePressOSRMode8,   /**< 采样×8, 19 bit / 0.33 Pa(推荐温度过采样×2) */
-    ePressOSRMode16,   /**< 采样×16, 20 bit / 0.17 Pa(推荐温度过采样×2) */
-    ePressOSRMode32,   /**< 采样×32, 21 bit / 0.085 Pa(推荐温度过采样×2) */
+    ePressOSRMode1 = 0,   /**< sampling×1, 16 bit / 2.64 Pa(recommended temperature oversampling×1) */
+    ePressOSRMode2,   /**< sampling×2, 16 bit / 2.64 Pa(recommended temperature oversampling×1) */
+    ePressOSRMode4,   /**< sampling×4, 18 bit / 0.66 Pa(recommended temperature oversampling×1) */
+    ePressOSRMode8,   /**< sampling×8, 19 bit / 0.33 Pa(recommended temperature oversampling×2) */
+    ePressOSRMode16,   /**< sampling×16, 20 bit / 0.17 Pa(recommended temperature oversampling×2) */
+    ePressOSRMode32,   /**< sampling×32, 21 bit / 0.085 Pa(recommended temperature oversampling×2) */
   }ePressOSRMode_t;
 
   /**
    * @enum  eTempOSRMode_t
-   * @brief  6种温度过采样模式
+   * @brief  6 temperature oversampling modes
    */
   typedef enum
   {
-    eTempOSRMode1 = 0<<3,   /**< 采样×1, 16 bit / 0.0050 °C */
-    eTempOSRMode2 = 1<<3,   /**< 采样×2, 16 bit / 0.0025 °C */
-    eTempOSRMode4 = 2<<3,   /**< 采样×4, 18 bit / 0.0012 °C */
-    eTempOSRMode8 = 3<<3,   /**< 采样×8, 19 bit / 0.0006 °C */
-    eTempOSRMode16 = 4<<3,   /**< 采样×16, 20 bit / 0.0003 °C */
-    eTempOSRMode32 = 5<<3,   /**< 采样×32, 21 bit / 0.00015 °C */
+    eTempOSRMode1 = 0<<3,   /**< sampling×1, 16 bit / 0.0050 °C */
+    eTempOSRMode2 = 1<<3,   /**< sampling×2, 16 bit / 0.0025 °C */
+    eTempOSRMode4 = 2<<3,   /**< sampling×4, 18 bit / 0.0012 °C */
+    eTempOSRMode8 = 3<<3,   /**< sampling×8, 19 bit / 0.0006 °C */
+    eTempOSRMode16 = 4<<3,   /**< sampling×16, 20 bit / 0.0003 °C */
+    eTempOSRMode32 = 5<<3,   /**< sampling×32, 21 bit / 0.00015 °C */
   }eTempOSRMode_t;
 
-/***************** 方便用户选择的枚举数据类型 ******************************/
+/***************** enumerated data types for users easy to select ******************************/
 
   /**
    * @enum  eSDOPinMode_t
-   * @brief  SDO接线状态
+   * @brief  SDO wiring status
    */
   typedef enum
   {
-    eSDOGND = 0,   /**< SDO接GND */
-    eSDOVDD,   /**< SDO接VDD */
+    eSDOGND = 0,   /**< SDO connects GND */
+    eSDOVDD,   /**< SDO connects VDD */
   }eSDOPinMode_t;
 
   /**
    * @enum  ePrecisionMode_t
-   * @brief  为了选择最佳设置, 建议使用的模式
+   * @brief  the recommended modes for the best settings
    */
   typedef enum
   {
-    eUltraLowPrecision = 0, /**< 超低精度, 适合天气监控(最低功耗), 电源模式为强制模式, IDD[µA]=4, RMSNoise[cm]=55 */
-    eLowPrecision, /**< 低精度, 适合随意的检测, 电源模式为正常模式, IDD[µA]=358, RMSNoise[cm]=36 */
-    eNormalPrecision1, /**< 标准精度1, 适合在手持式设备上动态检测(例如在手机上), 电源模式为正常模式, IDD[µA]=310, RMSNoise[cm]=10 */
-    eNormalPrecision2, /**< 标准精度2, 适合无人机, 电源模式为正常模式, IDD[µA]=570, RMSNoise[cm]=11 */
-    eHighPrecision, /**< 高精度, 适合在低功耗手持式设备上(例如在手机上), 电源模式为正常模式, IDD[µA]=145, RMSNoise[cm]=11 */
-    eUltraPrecision, /**< 超高精度, 适合室内的导航, 电源模式为正常模式, IDD[µA]=560, RMSNoise[cm]=5 */
+    eUltraLowPrecision = 0, /**< ultra-low precision, suitable for weather monitoring (minimum power consumption), power mode is enforcing mode, IDD[µA]=4, RMSNoise[cm]=55 */
+    eLowPrecision, /**< low precision, suitable for random detection, power mode is normal mode, IDD[µA]=358, RMSNoise[cm]=36 */
+    eNormalPrecision1, /**< normal accuracy 1, suitable for dynamic detection on handheld devices (such as mobile phones), power mode is normal mode, IDD[µA]=310, RMSNoise[cm]=10 */
+    eNormalPrecision2, /**< normal accuracy 2, suitable for drones, power mode is normal mode, IDD[µA]=570, RMSNoise[cm]=11 */
+    eHighPrecision, /**< high precision, suitable for low-power handheld devices (such as mobile phones), power mode is normal mode, IDD[µA]=145, RMSNoise[cm]=11 */
+    eUltraPrecision, /**< ultra high precision, suitable for indoor guide, power mode is normal mode, IDD[µA]=560, RMSNoise[cm]=5 */
   }ePrecisionMode_t;
 
 public:
   /**
    * @fn DFRobot_BMP3XX
-   * @brief 构造函数
-   * @param chipID 芯片ID
+   * @brief constructor
+   * @param chipID chip ID
    * @return None
    */
   DFRobot_BMP3XX(uint8_t chipID);
 
   /**
    * @fn begin
-   * @brief 初始化函数
-   * @return int类型, 表示返回初始化的状态
+   * @brief initialization function
+   * @return int type, means returning initialization status
    * @retval 0 NO_ERROR
    * @retval -1 ERR_DATA_BUS
    * @retval -2 ERR_IC_VERSION
    */
   virtual int begin(void);
 
-/***************** 每个寄存器的整合配置 ******************************/
+/***************** integrated configuration of each register ******************************/
 
   /**
    * @fn setFIFOMode1
-   * @brief FIFO配置一(FIFO1)
-   * @param mode 需要设置的FIFO模式,下列模式相加为mode:
-   * @n       eFIFODIS: 禁用FIFO, eFIFOEN: 启用FIFO
-   * @n       eFIFOStopOnFullDIS: 写满时继续写入, eFIFOStopOnFullEN: 写满时停止写入
-   * @n       eFIFOTimeDIS: 禁用, eFIFOTimeEN: 启用在最后一个有效数据帧之后返回传感器时间帧
-   * @n       eFIFOPressDIS: 禁用压力数据缓存, eFIFOPressEN: 启用压力数据缓存
-   * @n       eFIFOTempDIS: 禁用温度数据缓存, eFIFOTempEN: 启用温度数据缓存
+   * @brief FIFO configuration one (FIFO1)
+   * @param mode FIFO mode to be set, the following patterns constitute mode:
+   * @n       eFIFODIS: disable FIFO, eFIFOEN: enable FIFO
+   * @n       eFIFOStopOnFullDIS: continue writing when on full, eFIFOStopOnFullEN: stop writing when on full
+   * @n       eFIFOTimeDIS: disable, eFIFOTimeEN: enable returning sensor time frame after the last valid data frame
+   * @n       eFIFOPressDIS: disable pressure data buffer, eFIFOPressEN: enable pressure data buffer
+   * @n       eFIFOTempDIS: disable temperature data buffer, eFIFOTempEN: enable temperature data buffer
    * @return None
    */
   void setFIFOMode1(uint8_t mode);
 
   /**
    * @fn setFIFOMode2
-   * @brief FIFO配置二(FIFO2)
-   * @param mode 需要设置的FIFO模式,下列模式相加为mode:
-   * @n       8种压力和温度数据的FIFO下采样选择(1-128), 系数为2^fifo_subsampling(0-7): 
+   * @brief FIFO configuration two (FIFO2)
+   * @param mode FIFO mode to be set, the following patterns constitute mode:
+   * @n       sampling select in FIFO of 8 types of pressure & temperature data (1-128), coefficient is 2^fifo_subsampling(0-7): 
    * @n         eFIFOSubsampling0, eFIFOSubsampling1, eFIFOSubsampling2, eFIFOSubsampling3,
    * @n         eFIFOSubsampling4, eFIFOSubsampling5, eFIFOSubsampling6, eFIFOSubsampling7,
-   * @n       eFIFODataSelectDIS:  未过滤数据(补偿或未补偿) , eFIFODataSelectEN:  过滤数据(补偿或未补偿), 外加两种保留状态: 与“unfilt”相同
+   * @n       eFIFODataSelectDIS:  unfiltered data (compensated or uncompensated) , eFIFODataSelectEN:  filtered data (compensated or uncompensated), add two reserved modes: same as "unfilt"
    * @return None
    */
   void setFIFOMode2(uint8_t mode);
 
   /**
    * @fn setINTMode
-   * @brief 中断配置(INT)
-   * @param mode 需要设置的中断模式,下列模式相加为mode:
-   * @n       中断引脚输出模式: eINTPinPP:  推挽 , eINTPinOD:  开漏
-   * @n       中断引脚有效电平: eINTPinActiveLevelLow:  低电平有效 , eINTPinActiveLevelHigh:  高电平有效
-   * @n       中断寄存器锁定: eINTLatchDIS:  禁用 , eINTLatchEN:  启用
-   * @n       FIFO水位到达中断: eINTFWTMDIS:  禁用 , eINTFWTMEN:  启用
-   * @n       FIFO存满中断: eINTFFullDIS:  禁用 , eINTFFullEN:  启用
-   * @n       中断引脚初始(无效、无中断)电平: eINTInitialLevelLOW:  低电平 , eINTInitialLevelHIGH:  高电平
-   * @n       温度/压力数据准备中断: eINTDataDrdyDIS:  禁用 , eINTDataDrdyEN:  启用
+   * @brief interrupt configuration (INT)
+   * @param mode interrupt mode to be set, the following patterns constitute mode:
+   * @n       interrupt pin output mode: eINTPinPP:  push-pull , eINTPinOD:  open-drain
+   * @n       interrupt pin active level: eINTPinActiveLevelLow:  active low , eINTPinActiveLevelHigh:  active high
+   * @n       interrupt register lock-in: eINTLatchDIS:  disable , eINTLatchEN:  enable
+   * @n       FIFO water level interrupt: eIntFWtmDis:  disable , eIntFWtmEn:  enable
+   * @n       FIFO full interrupt: eINTFFullDIS:  disable , eINTFFullEN:  enable
+   * @n       interrupt pin initial (invalid, no interrupt) level: eINTInitialLevelLOW:  low level , eINTInitialLevelHIGH:  high level
+   * @n       temperature/pressure data ready interrupt: eINTDataDrdyDIS:  disable , eINTDataDrdyEN:  enable
    * @return None
    */
   void setINTMode(uint8_t mode);
 
   /**
    * @fn setPWRMode
-   * @brief 测量模式和电源模式的配置
-   * @param mode 需要设置的测量模式和电源模式,下列模式相加为mode:
-   * @n       ePressDIS:  禁用压力测量 , ePressEN:  启用压力测量
-   * @n       eTempDIS:  禁用温度测量 , eTempEN:  启用温度测量
-   * @n       eSleepMode, eForcedMode, eNormalMode 三种模式: 
-   * @n         睡眠模式: 上电复位后默认设置为睡眠模式。在睡眠模式下, 不执行任何测量, 并且功耗最少。所有寄存器均可访问；可以读取芯片ID和补偿系数。
-   * @n         强制模式: 在强制模式下, 根据选择的测量和滤波选项进行单个测量。测量完成后, 传感器返回睡眠模式, 测量结果可从数据寄存器中获得。
-   * @n         正常模式: 在测量周期和待机周期之间连续循环, 输出数据率(output data rates)与ODR模式设置有关。
+   * @brief configuration of measurement mode and power mode
+   * @param mode measurement mode and power mode to be set, the following patterns constitute mode:
+   * @n       ePressDIS:  disable pressure measurement , ePressEN:  enable pressure measurement
+   * @n       eTempDIS:  disable temperature measurement , eTempEN:  enable temperature measurement
+   * @n       eSleepMode, eForcedMode, eNormalMode three modes: 
+   * @n         Sleep mode: It will be in sleep mode by default after power-on reset. In this mode, no measurement is performed and power consumption is minimal. All registers are accessible for reading the chip ID and compensation coefficient.
+   * @n         Forced mode: In this mode, the sensor will take a single measurement according to the selected measurement and filtering options. After the measurement is completed, the sensor will return to sleep mode, and the measurement result can be obtained in the register.
+   * @n         normal mode: continuous loop between the measurement period and standby period, output data rates are affected by ODR mode setting.
    * @return None
    */
   void setPWRMode(uint8_t mode);
 
   /**
    * @fn setOSRMode
-   * @brief 压力和温度测量的过采样配置(OSR:over-sampling register)
-   * @param mode 需要设置的压力和温度测量的过采样模式,下列模式相加为mode:
-   * @n       6种压力过采样模式:
-   * @n         ePressOSRMode1,  压力采样×1, 16 bit / 2.64 Pa(推荐温度过采样×1)
-   * @n         ePressOSRMode2,  压力采样×2, 16 bit / 2.64 Pa(推荐温度过采样×1)
-   * @n         ePressOSRMode4,  压力采样×4, 18 bit / 0.66 Pa(推荐温度过采样×1)
-   * @n         ePressOSRMode8,  压力采样×8, 19 bit / 0.33 Pa(推荐温度过采样×2)
-   * @n         ePressOSRMode16,  压力采样×16, 20 bit / 0.17 Pa(推荐温度过采样×2)
-   * @n         ePressOSRMode32,  压力采样×32, 21 bit / 0.085 Pa(推荐温度过采样×2)
-   * @n       6种温度过采样模式
-   * @n         eTempOSRMode1,  温度采样×1, 16 bit / 0.0050 °C
-   * @n         eTempOSRMode2,  温度采样×2, 16 bit / 0.0025 °C
-   * @n         eTempOSRMode4,  温度采样×4, 18 bit / 0.0012 °C
-   * @n         eTempOSRMode8,  温度采样×8, 19 bit / 0.0006 °C
-   * @n         eTempOSRMode16,  温度采样×16, 20 bit / 0.0003 °C
-   * @n         eTempOSRMode32,  温度采样×32, 21 bit / 0.00015 °C
+   * @brief oversampling configuration of pressure and temperature measurement (OSR:over-sampling register)
+   * @param mode oversampling mode of pressure & temperature measurement to be set, the following patterns constitute mode:
+   * @n       6 pressure oversampling modes:
+   * @n         ePressOSRMode1,  pressure sampling×1, 16 bit / 2.64 Pa(recommended temperature oversampling×1)
+   * @n         ePressOSRMode2,  pressure sampling×2, 16 bit / 2.64 Pa(recommended temperature oversampling×1)
+   * @n         ePressOSRMode4,  pressure sampling×4, 18 bit / 0.66 Pa(recommended temperature oversampling×1)
+   * @n         ePressOSRMode8,  pressure sampling×8, 19 bit / 0.33 Pa(recommended temperature oversampling×2)
+   * @n         ePressOSRMode16,  pressure sampling×16, 20 bit / 0.17 Pa(recommended temperature oversampling×2)
+   * @n         ePressOSRMode32,  pressure sampling×32, 21 bit / 0.085 Pa(recommended temperature oversampling×2)
+   * @n       6 temperature oversampling modes
+   * @n         eTempOSRMode1,  temperature sampling×1, 16 bit / 0.0050 °C
+   * @n         eTempOSRMode2,  temperature sampling×2, 16 bit / 0.0025 °C
+   * @n         eTempOSRMode4,  temperature sampling×4, 18 bit / 0.0012 °C
+   * @n         eTempOSRMode8,  temperature sampling×8, 19 bit / 0.0006 °C
+   * @n         eTempOSRMode16,  temperature sampling×16, 20 bit / 0.0003 °C
+   * @n         eTempOSRMode32,  temperature sampling×32, 21 bit / 0.00015 °C
    * @return None
    */
   void setOSRMode(uint8_t mode);
 
   /**
    * @fn setODRMode
-   * @brief 细分/二次采样的方式设置输出数据率配置(ODR:output data rates)
-   * @param mode 需要设置的输出数据率,可配置模式: 
+   * @brief set output data rate configuration in subdivision/sub-sampling mode (ODR:output data rates)
+   * @param mode output data rate to be set, configurable modes: 
    * @n       BMP3XX_ODR_200_HZ, BMP3XX_ODR_100_HZ, BMP3XX_ODR_50_HZ, BMP3XX_ODR_25_HZ, BMP3XX_ODR_12P5_HZ, 
    * @n       BMP3XX_ODR_6P25_HZ, BMP3XX_ODR_3P1_HZ, BMP3XX_ODR_1P5_HZ, BMP3XX_ODR_0P78_HZ, BMP3XX_ODR_0P39_HZ, 
    * @n       BMP3XX_ODR_0P2_HZ, BMP3XX_ODR_0P1_HZ, BMP3XX_ODR_0P05_HZ, BMP3XX_ODR_0P02_HZ, BMP3XX_ODR_0P01_HZ, 
    * @n       BMP3XX_ODR_0P006_HZ, BMP3XX_ODR_0P003_HZ, BMP3XX_ODR_0P0015_HZ
-   * @return bool量, 表示配置结果
-   * @retval True 表示配置成功, 成功更新配置
-   * @retval False 表示配置失败, 保持原来的状态
+   * @return boolean, indicates configuration results
+   * @retval True indicates configuration succeeds, successfully update the configuration
+   * @retval False indicates configuration fails and remains its original state
    */
   bool setODRMode(uint8_t mode);
 
   /**
    * @fn setIIRMode
-   * @brief IIR滤波系数配置(IIR filtering)
-   * @param mode IIR滤波系数设置, 可配置模式: 
+   * @brief IIR filter coefficient configuration (IIR filtering)
+   * @param mode IIR filter coefficient setting, configurable modes: 
    * @n       BMP3XX_IIR_CONFIG_COEF_0, BMP3XX_IIR_CONFIG_COEF_1, BMP3XX_IIR_CONFIG_COEF_3, 
    * @n       BMP3XX_IIR_CONFIG_COEF_7, BMP3XX_IIR_CONFIG_COEF_15, BMP3XX_IIR_CONFIG_COEF_31, 
    * @n       BMP3XX_IIR_CONFIG_COEF_63, BMP3XX_IIR_CONFIG_COEF_127
@@ -813,95 +813,95 @@ public:
 
   /**
    * @fn setCommand
-   * @brief 传感器FIFO清空命令和软复位命令
-   * @param mode 传感器基本命令, 三种命令: 
-   * @n       BMP3XX_CMD_NOP, 空命令
-   * @n       BMP3XX_CMD_FIFO_FLUSH, 清除FIFO中的所有数据, 不改变FIFO配置
-   * @n       BMP3XX_CMD_SOFTRESET, 触发重置, 所有用户配置设置将被其默认状态覆盖
+   * @brief sensor FIFO clear command and soft reset command
+   * @param mode sensor basic command, three commands: 
+   * @n       BMP3XX_CMD_NOP, null command
+   * @n       BMP3XX_CMD_FIFO_FLUSH, clear all the data in FIFO, not change FIFO configuration
+   * @n       BMP3XX_CMD_SOFTRESET, when reset triggered, all user configuration settings are overridden by the default status
    * @return None
    */
   void setCommand(uint8_t mode);
 
   /**
    * @fn setFIFOWTM
-   * @brief FIFO水位设置配置
-   * @param WTMSetting 需要设置的FIFO水位(0-511), FIFO填充达到水位值触发中断
+   * @brief FIFO water level setting configuration
+   * @param WTMSetting FIFO water level to be set(0-511), interrupt is triggered when FIFO filled to the water level
    * @return None
    */
   void setFIFOWTM(uint16_t WTMSetting);
 
   /**
    * @fn setSamplingMode
-   * @brief 让用户方便配置常用的采样模式
+   * @brief common sampling modes for users easy to configure
    * @param mode:
-   * @n       eUltraLowPrecision, 超低精度, 适合天气监控(最低功耗), 电源模式为强制模式
-   * @n       eLowPrecision, 低精度, 适合随意的检测, 电源模式为正常模式
-   * @n       eNormalPrecision1, 标准精度1, 适合在手持式设备上动态检测(例如在手机上), 电源模式为正常模式
-   * @n       eNormalPrecision2, 标准精度2, 适合无人机, 电源模式为正常模式
-   * @n       eHighPrecision, 高精度, 适合在低功耗手持式设备上(例如在手机上), 电源模式为正常模式
-   * @n       eUltraPrecision, 超高精度, 适合室内的导航, 采集速率会极低, 采集周期1000ms, 电源模式为正常模式
-   * @return bool量, 表示配置结果
-   * @retval True 表示配置成功, 成功更新配置
-   * @retval False 表示配置失败, 保持原来的状态
+   * @n       eUltraLowPrecision, ultra-low precision, suitable for weather monitoring (minimum power consumption), power mode is enforcing mode
+   * @n       eLowPrecision, low precision, suitable for random detection, power mode is normal mode
+   * @n       eNormalPrecision1, normal accuracy 1, suitable for dynamic detection on handheld devices (such as mobile phones), power mode is normal mode
+   * @n       eNormalPrecision2, normal accuracy 2, suitable for drones, power mode is normal mode
+   * @n       eHighPrecision, high precision, suitable for low-power handheld devices (such as mobile phones), power mode is normal mode
+   * @n       eUltraPrecision, ultra high precision, suitable for indoor guide, the collection rate is very low and the collection period is 1000ms, power mode is normal mode
+   * @return boolean, indicates configuration results
+   * @retval True indicates configuration succeeds, successfully update the configuration
+   * @retval False indicates configuration fails and remains its original state
    */
   bool setSamplingMode(ePrecisionMode_t mode);
 
-/***************** 数据寄存器的获取和处理 ******************************/
+/***************** data register acquisition and processing ******************************/
 
   /**
    * @fn getSamplingPeriodUS
-   * @brief 获取传感器当前采样模式下的采样周期
-   * @return 返回采样周期, 单位us
+   * @brief get the sensor sampling period in the current sampling mode
+   * @return return sampling period, unit is us
    */
   uint32_t getSamplingPeriodUS(void);
 
   /**
    * @fn readTempC
-   * @brief 从寄存器获取温度测量值, 工作范围(-40 ‒ +85 °C)
-   * @return 返回温度测量值, 单位是℃
+   * @brief get temperature measured value from the register, operating range(-40 ‒ +85 °C)
+   * @return return temperature measured value, unit is ℃
    */
   float readTempC(void);
 
   /**
    * @fn readPressPa
-   * @brief 从寄存器获取压力测量值, 工作范围(300‒1250 hPa)
-   * @return 返回压力测量值, 单位是Pa
-   * @attention 若之前提供了基准值, 则根据校准的海平面大气压, 计算当前位置气压的绝对值
+   * @brief get pressured measured value from the register, operating range(300‒1250 hPa)
+   * @return return pressure measured value, unit is Pa
+   * @attention if a reference value is previously provided, calculate the absolute value of the pressure at the current position according to the calibrated sea level atmospheric pressure
    */
   float readPressPa(void);
 
   /**
    * @fn calibratedAbsoluteDifference
-   * @brief 以给定的当前位置海拔做为基准值, 为后续压力和海拔数据消除绝对差
-   * @param altitude 当前位置海拔高度
-   * @return bool量, 表示设置基准值是否成功
-   * @retval True 表示设置基准值成功
-   * @retval False 表示设置基准值失败
+   * @brief use the given current altitude as a reference value, eliminate the absolute difference of subsequent pressure and altitude data
+   * @param altitude current altitude
+   * @return boolean, indicates whether the reference value is set successfully
+   * @retval True indicates the reference value is set successfully
+   * @retval False indicates fail to set the reference value
    */
   bool calibratedAbsoluteDifference(float altitude);
 
   /**
    * @fn readAltitudeM
-   * @brief 根据传感器所测量大气压, 计算海拔高度
-   * @return 返回海拔高度, 单位m
-   * @attention 若之前提供了基准值, 则根据校准的海平面大气压, 计算当前位置海拔绝对高度
+   * @brief calculate altitude according to the atmospheric pressure measured by the sensor
+   * @return return altitude, unit is m
+   * @attention if a reference value is previously provided, calculate the absolute value of the altitude at the current position according to the calibrated sea level atmospheric pressure
    */
   float readAltitudeM(void);
 
   /**
    * @fn getFIFOData
-   * @brief 获取FIFO中缓存的数据
-   * @param FIFOTemperatureC 用于存储温度测量数据的变量
-   * @param FIFOPressurePa 用于存储压力测量数据的变量
-   * @note 温度单位摄氏度, 压力单位帕
+   * @brief get the buffered data in FIFO
+   * @param FIFOTemperatureC variable for storing temperature measured data
+   * @param FIFOPressurePa variable for storing pressure measured data
+   * @note temperature unit is Celsius, pressure unit is Pa
    * @return None
    */
   void getFIFOData(float &FIFOTemperatureC, float &FIFOPressurePa);
 
   /**
    * @fn getFIFOLength
-   * @brief 获取FIFO已缓存数据大小
-   * @return 返回值范围为: 0-511
+   * @brief get FIFO buffered data length
+   * @return return value range: 0-511
    */
   uint16_t getFIFOLength(void);
 
@@ -910,135 +910,136 @@ protected:
 
   /**
    * @fn setIFCONFMode
-   * @brief 串行接口配置
-   * @param mode 需要设置的串行接口模式,下列模式相加为mode:
-   * @n       eSerialModeSPI4:  SPI四线模式 , eSerialModeSPI3:  SPI三线模式
-   * @n       eI2CWDTDIS:  禁用 , eI2CWDTEN:  启用I2C看门狗定时器
-   * @n       eI2CWDTSel1p25:  I2C看门狗定时器在1.25ms后超时 , eI2CWDTSel40:  I2C看门狗定时器在40ms后超时
+   * @brief serial port configuration
+   * @param mode serial port mode to be set, the following patterns constitute mode:
+   * @n       eSerialModeSPI4:  SPI four-wire mode , eSerialModeSPI3:  SPI three-wire mode
+   * @n       eI2CWDTDIS:  disable , eI2CWDTEN:  enable I2C WDT
+   * @n       eI2CWDTSel1p25:  set I2C WDT timeout value to 1.25ms , eI2CWDTSel40:  set I2C WDT timeout value to 40ms
    * @return None
    */
   void setIFCONFMode(uint8_t mode);
 
   /**
    * @fn getFIFOWTMValue
-   * @brief 获取FIFO设定的水位值
-   * @return 返回值范围为: 0-511
+   * @brief get the FIFO set water level
+   * @return return value range: 0-511
    */
   uint16_t getFIFOWTMValue(void);
 
   /**
    * @fn getBMP3XXCalibData
-   * @brief 获取sCalibData_t补偿校准数据
+   * @brief get sCalibData_t compensation calibration data
    * @return None
    */
   void getBMP3XXCalibData(void);
 
   /**
    * @fn calibTemperatureC
-   * @brief 利用校准系数, 对原始数据进行补偿
-   * @return 返回补偿后的温度测量值, 单位是摄氏度
+   * @brief use the calibration coefficient to compensate the original data
+   * @return return the compensated temperature measured value, the unit is Celsius
    */
   float calibTemperatureC(uint32_t uncompTemp);
 
   /**
    * @fn calibPressurePa
-   * @brief 利用校准系数, 对原始数据进行补偿
-   * @return 返回补偿后的压力测量值, 单位是Pa
+   * @brief use the calibration coefficient to compensate the original data
+   * @return return the compensated pressure measured value, unit is Pa
    */
   float calibPressurePa(uint32_t uncompPress);
 
-/***************** 传感器状态寄存器的获取和处理 ******************************/
+/***************** sensor status register acquisition and processing ******************************/
 
   /**
    * @fn cacheErrorStatus
-   * @brief 这个API获取传感器发出的错误信息(致命的、命令和配置错误)。
-   * @note 获取到的信息将存入到结构体BMP3Info._errStatus中: 
-   * @n      BMP3Info.errStatus.fatalError:致命错误, 不可恢复的错误
-   * @n      BMP3Info.errStatus.CMDError:命令执行失败, 在阅读后清零
-   * @n      BMP3Info.errStatus.configError:检测到传感器配置错误(仅在正常模式下工作), 在阅读后清零
+   * @brief the API retrieves error messages (fatal error, command and configuration error) from the sensor
+   * @note obtained messages will be stored into struct BMP3Info._errStatus: 
+   * @n      BMP3Info.errStatus.fatalError: fatal error, unrecoverable error
+   * @n      BMP3Info.errStatus.CMDError: the command fails to be executed and is cleared after being read
+   * @n      BMP3Info.errStatus.configError: detect the sensor configuration error (only work in normal mode), and it's cleared after being read
    * @return None
    */
   void cacheErrorStatus(void);
 
   /**
    * @fn cacheSensorStatus
-   * @brief 这个API从传感器获取压力数据及温度数据是否准备好的状态, 和CMD解码器状态。
-   * @note 获取到的信息将存入到结构体BMP3Info._sensorStatus中: 
-   * @n      BMP3Info.sensorStatus.CMDReady:CMD解码器状态
-   * @n      BMP3Info.sensorStatus.pressDrdy:当一个压力数据寄存器被读出时, 它会被重置
-   * @n      BMP3Info.sensorStatus.tempDrdy:当一个温度数据寄存器被读出时, 它将被重置
+   * @brief the API retrieves readiness for the pressure data and temperature data and CMD decoder status from the sensor
+   * @note obtained messages will be stored into struct BMP3Info._sensorStatus: 
+   * @n      BMP3Info.sensorStatus.CMDReady: CMD decoder status
+   * @n      BMP3Info.sensorStatus.pressDrdy: when a pressure data register is read, it will be reset
+   * @n      BMP3Info.sensorStatus.tempDrdy: when a temperature data register is read, it will be reset
    * @return None
    */
   void cacheSensorStatus(void);
 
   /**
    * @fn cacheSensorEvent
-   * @brief 这个API从传感器获取传感器事件: 设备加电或软复位后为“ 1”, 阅读时清除；
-   * @note 在压力或温度转换过程中发生接口事务时为“ 1”, 阅读时清除。
-   * @n    获取到的信息将存入到结构体BMP3Info._sensorEvent中: 
-   * @n      BMP3Info.sensorEvent.porDetected:“1”设备上电或软复位后, 在阅读后清零
-   * @n      BMP3Info.sensorEvent.itfActPt:“1”当在压力或温度转换期间发生串行接口事务时, 在阅读后清零
+   * @brief the API gets sensor events from the sensor: 1 indicates the device is powered on or soft reset, and is cleared when read;
+   * @note 1 indicates port transactions occur during pressure or temperature conversion, and is cleared when read
+   * @n    obtained messages will be stored into struct BMP3Info._sensorEvent: 
+   * @n      BMP3Info.sensorEvent.porDetected: "1" device is powered on and soft reset, and is cleared after being read
+   * @n      BMP3Info.sensorEvent.itfActPt: "1" indicates port transactions occur during pressure or temperature conversion, and is cleared after being read
+
    * @return None
    */
   void cacheSensorEvent(void);
 
   /**
    * @fn cacheINTStatus
-   * @brief 这个API获取传感器中断的状态(FIFO水位, FIFO满, 数据准备好)。
-   * @note 获取到的信息将存入到结构体BMP3Info._INTStatus中: 
-   * @n      BMP3Info.INTStatus.fwtmINT:FIFO水位中断
-   * @n      BMP3Info.INTStatus.ffullINT:FIFO存满中断
-   * @n      BMP3Info.INTStatus.dataReady:数据准备好中断
+   * @brief the API get the sensor interrupt status (FIFO water level, FIFO on full, data ready)
+   * @note obtained messages will be stored into struct BMP3Info._INTStatus: 
+   * @n      BMP3Info.INTStatus.fwtmINT: FIFO water level interrupt
+   * @n      BMP3Info.INTStatus.ffullINT: FIFO full interrupt
+   * @n      BMP3Info.INTStatus.dataReady: data ready interrupt
    * @return None
    */
   void cacheINTStatus(void);
 
-/***************** 寄存器读写接口 ******************************/
+/***************** register reading and writing ports ******************************/
 
   /**
    * @fn writeReg
-   * @brief 写寄存器函数, 设计为纯虚函数, 由派生类实现函数体
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要写入数据的存放缓存
-   * @param size 要写入数据的长度
+   * @brief write register function, design it as a pure virtual function, implement the function body through a derived class
+   * @param reg  register address 8bits
+   * @param pBuf to write data storage and buffer
+   * @param size to write data length
    * @return None
    */
   virtual void writeReg(uint8_t reg, const void* pBuf, size_t size)=0;
 
   /**
    * @fn readReg
-   * @brief 读取寄存器函数, 设计为纯虚函数, 由派生类实现函数体
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要读取数据的存放缓存
-   * @param size 要读取数据的长度
-   * @return 返回读取的长度, 返回0表示读取失败
+   * @brief read register function, design it as a pure virtual function, implement the function body through a derived class
+   * @param reg  register address 8bits
+   * @param pBuf to read data storage and buffer
+   * @param size to read data length
+   * @return return read length, returning 0 means read failure
    */
   virtual size_t readReg(uint8_t reg, void* pBuf, size_t size)=0;
 
 private:
-  // 私有化定义的变量
+  // private variables
   sBMP3XXDeviceInfo_t BMP3Info;
 };
 
-/***************** IIC和SPI接口的初始化和读写 ******************************/
+/***************** initialization and write/read of IIC and SPI interfaces ******************************/
 
 class DFRobot_BMP3XX_IIC:public DFRobot_BMP3XX
 {
 public:
   /**
    * @fn DFRobot_BMP3XX_IIC
-   * @brief 构造函数, 根据SDO引脚接线, 设置传感器IIC通信地址
-   * @param pWire Wire.h里定义了Wire对象, 因此使用&Wire就能够指向并使用Wire中的方法
-   * @param mode SDO引脚连接到GND,此时I2C地址为0x76;SDO引脚连接到VDDIO,此时I2C地址为0x77
-   * @param chipID 芯片ID
+   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
+   * @param mode SDO pin connects to GND, the current I2C address is 0x76;SDO pin connects to VDDIO, the current I2C address is 0x77
+   * @param chipID chip ID
    * @return None
    */
   DFRobot_BMP3XX_IIC(TwoWire *pWire, eSDOPinMode_t mode, uint8_t chipID);
 
   /**
    * @fn begin
-   * @brief 子类初始化函数
-   * @return int类型, 表示返回初始化的状态
+   * @brief subclass initialization function
+   * @return int type, means returning initialization status
    * @retval 0 NO_ERROR
    * @retval -1 ERR_DATA_BUS
    * @retval -2 ERR_IC_VERSION
@@ -1048,27 +1049,27 @@ public:
 protected:
   /**
    * @fn writeReg
-   * @brief 通过IIC总线写入寄存器值
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要写入数据的存放缓存
-   * @param size 要写入数据的长度
+   * @brief write register values through IIC bus
+   * @param reg  register address 8bits
+   * @param pBuf to write data storage and buffer
+   * @param size to write data length
    * @return None
    */
   virtual void writeReg(uint8_t reg, const void* pBuf, size_t size);
 
   /**
    * @fn readReg
-   * @brief 通过IIC总线读取寄存器值
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要读取数据的存放缓存
-   * @param size 要读取数据的长度
-   * @return 返回读取的长度, 返回0表示读取失败
+   * @brief read register values through IIC bus
+   * @param reg  register address 8bits
+   * @param pBuf to read data storage and buffer
+   * @param size to read data length
+   * @return return read length, returning 0 means read failure
    */
   virtual size_t readReg(uint8_t reg, void* pBuf, size_t size);
 
 private:
-  TwoWire *_pWire;   // IIC通信方式的指针
-  uint8_t _deviceAddr;   // IIC通信的设备地址
+  TwoWire *_pWire;   // pointer to IIC communication method
+  uint8_t _deviceAddr;   // IIC communication device address
 };
 
 class DFRobot_BMP3XX_SPI:public DFRobot_BMP3XX
@@ -1076,18 +1077,18 @@ class DFRobot_BMP3XX_SPI:public DFRobot_BMP3XX
 public:
   /**
    * @fn DFRobot_BMP3XX_SPI
-   * @brief 构造函数
-   * @param pSpi SPI.h里定义了extern SPIClass SPI;因此取SPI对象的地址就能够指向并使用SPI中的方法
-   * @param csPin 是指定cs接的数字引脚
-   * @param chipID 芯片ID
+   * @brief constructor
+   * @param pSpi extern SPIClass SPI is defined in SPI.h; so just get SPI object address and the methods in SPI can be pointed to and used
+   * @param csPin is the digital pin that specifies cs to connect to
+   * @param chipID chip ID
    * @return None
    */
   DFRobot_BMP3XX_SPI(SPIClass *pSpi, uint8_t csPin, uint8_t chipID);
 
   /**
    * @fn DFRobot_BMP3XX_SPI
-   * @brief 子类初始化函数
-   * @return int类型, 表示返回初始化的状态
+   * @brief subclass initialization function
+   * @return int type, means returning initialization status
    * @retval 0 NO_ERROR
    * @retval -1 ERR_DATA_BUS
    * @retval -2 ERR_IC_VERSION
@@ -1097,40 +1098,40 @@ public:
 protected:
   /**
    * @fn writeReg
-   * @brief 通过SPI总线写入寄存器值
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要写入数据的存放缓存
-   * @param size 要写入数据的长度
+   * @brief write register value through SPI bus
+   * @param reg  register address 8bits
+   * @param pBuf to write data storage and buffer
+   * @param size to write data length
    * @return None
    */
   virtual void writeReg(uint8_t reg, const void* pBuf, size_t size);
 
   /**
    * @fn readReg
-   * @brief 通过SPI总线读取寄存器值
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要读取数据的存放缓存
-   * @param size 要读取数据的长度
-   * @return 返回读取的长度, 返回0表示读取失败
+   * @brief read register value through SPI bus
+   * @param reg  register address 8bits
+   * @param pBuf to read data storage and buffer
+   * @param size to read data length
+   * @return return read length, returning 0 means read failure
    */
   virtual size_t readReg(uint8_t reg, void* pBuf, size_t size);
 
 private:
-  SPIClass *_pSpi;   // SPI通信方式的指针
-  uint8_t _csPin;   // SPI通信的片选引脚
+  SPIClass *_pSpi;   // pointer to SPI communication method
+  uint8_t _csPin;   // SPI communication chip select pin
 };
 
-/***************** BMP388芯片 ******************************/
-/***************** IIC和SPI接口的初始化和读写 ******************************/
+/***************** BMP388 chip ******************************/
+/***************** initialization and write/read of IIC and SPI interfaces ******************************/
 
 class DFRobot_BMP388_IIC:public DFRobot_BMP3XX_IIC
 {
 public:
   /**
    * @fn DFRobot_BMP388_IIC
-   * @brief 构造函数, 根据SDO引脚接线, 设置传感器IIC通信地址
-   * @param pWire Wire.h里定义了Wire对象, 因此使用&Wire就能够指向并使用Wire中的方法
-   * @param mode SDO引脚连接到GND,此时I2C地址为0x76;SDO引脚连接到VDDIO,此时I2C地址为0x77
+   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
+   * @param mode SDO pin connects to GND, the current I2C address is 0x76; SDO pin connects to VDDIO, the current I2C address is 0x77
    * @return None
    */
   DFRobot_BMP388_IIC(TwoWire *pWire=&Wire, eSDOPinMode_t mode=eSDOVDD);
@@ -1142,26 +1143,26 @@ class DFRobot_BMP388_SPI:public DFRobot_BMP3XX_SPI
 public:
   /**
    * @fn DFRobot_BMP388_SPI
-   * @brief 构造函数, 根据SDO引脚接线, 设置传感器IIC通信地址
-   * @param pWire Wire.h里定义了Wire对象, 因此使用&Wire就能够指向并使用Wire中的方法
-   * @param csPin 是指定cs接的数字引脚
+   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
+   * @param csPin is the digital pin that specifies cs to connect to
    * @return None
    */
   DFRobot_BMP388_SPI(SPIClass *pSpi=&SPI, uint8_t csPin=3);
 
 };
 
-/***************** BMP390L芯片 ******************************/
-/***************** IIC和SPI接口的初始化和读写 ******************************/
+/***************** BMP390L chip ******************************/
+/***************** initialization and write/read of IIC and SPI interfaces ******************************/
 
 class DFRobot_BMP390L_IIC:public DFRobot_BMP3XX_IIC
 {
 public:
   /**
    * @fn DFRobot_BMP390L_IIC
-   * @brief 构造函数, 根据SDO引脚接线, 设置传感器IIC通信地址
-   * @param pWire Wire.h里定义了Wire对象, 因此使用&Wire就能够指向并使用Wire中的方法
-   * @param mode SDO引脚连接到GND,此时I2C地址为0x76;SDO引脚连接到VDDIO,此时I2C地址为0x77
+   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
+   * @param mode SDO pin connects to GND, the current I2C address is 0x76; SDO pin connects to VDDIO, the current I2C address is 0x77
    * @return None
    */
   DFRobot_BMP390L_IIC(TwoWire *pWire=&Wire, eSDOPinMode_t mode=eSDOVDD);
@@ -1173,9 +1174,9 @@ class DFRobot_BMP390L_SPI:public DFRobot_BMP3XX_SPI
 public:
   /**
    * @fn DFRobot_BMP390L_SPI
-   * @brief 构造函数, 根据SDO引脚接线, 设置传感器IIC通信地址
-   * @param pWire Wire.h里定义了Wire对象, 因此使用&Wire就能够指向并使用Wire中的方法
-   * @param csPin 是指定cs接的数字引脚
+   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
+   * @param csPin is the digital pin that specifies cs to connect to
    * @return None
    */
   DFRobot_BMP390L_SPI(SPIClass *pSpi=&SPI, uint8_t csPin=3);

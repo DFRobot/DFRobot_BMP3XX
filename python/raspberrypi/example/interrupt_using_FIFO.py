@@ -60,7 +60,7 @@ def setup():
 
   '''
     # Enable or disable FIFO
-    # mode：
+    # mode: 
     #   True: Enable FIFO
     #   False:Disable FIFO
   '''
@@ -69,7 +69,7 @@ def setup():
   '''
     # Enable the interrupt of the sensor FIFO reaching the water level signal
     # Note: As the interrupt pin is unique, the three interrupts are set to be used separately, please note the other two interrupt functions when using
-    # wtm_value:设定FIFO的水位值（范围：0-511）
+    # wtm_value:set the water level of FIFO(range: 0-511)
   '''
   sensor.enable_fifo_wtm_int(500)
 
@@ -109,8 +109,8 @@ def loop():
       fifo_pressure_sum += fifo_pressure
       count += 1
 
-    print("The number of data read this time is：%d" %count)
-    print("Below is the average of the results：")
+    print("The number of data read this time is: %d" %count)
+    print("Below is the average of the results: ")
     # At the same time, read and count the average temperature obtained in FIFO, unit: °C
     print("temperature : %.2f C" %(fifo_temperature_sum / count))
     # At the same time, read and count the average pressure value obtained in FIFO, unit: pa

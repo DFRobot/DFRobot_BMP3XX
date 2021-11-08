@@ -47,41 +47,41 @@ def setup():
 
   '''
     # Configure the oversampling when measuring pressure and temperature. (OSR:over-sampling register)
-    # mode Oversampling mode of pressure and temperature measurement need to set:
-    # 6 pressure oversampling mode:
-    #   BMP3XX_PRESS_OSR_SETTINGS[0], Pressure sampling × 1，16 bit / 2.64 Pa (Recommend temperature oversampling × 1)
-    #   BMP3XX_PRESS_OSR_SETTINGS[1], Pressure sampling × 2，16 bit / 2.64 Pa (Recommend temperature oversampling × 1)
-    #   BMP3XX_PRESS_OSR_SETTINGS[2], Pressure sampling × 4，18 bit / 0.66 Pa (Recommend temperature oversampling × 1)
-    #   BMP3XX_PRESS_OSR_SETTINGS[3], Pressure sampling × 8，19 bit / 0.33 Pa (Recommend temperature oversampling × 2)
-    #   BMP3XX_PRESS_OSR_SETTINGS[4], Pressure sampling × 16，20 bit / 0.17 Pa (Recommend temperature oversampling × 2)
-    #   BMP3XX_PRESS_OSR_SETTINGS[5], Pressure sampling × 32，21 bit / 0.085 Pa (Recommend temperature oversampling × 2)
-    # 6 temperature oversampling mode:
-    #   BMP3XX_TEMP_OSR_SETTINGS[0], Temperature sampling×1，16 bit / 0.0050 °C
-    #   BMP3XX_TEMP_OSR_SETTINGS[1], Temperature sampling×2，16 bit / 0.0025 °C
-    #   BMP3XX_TEMP_OSR_SETTINGS[2], Temperature sampling×4，18 bit / 0.0012 °C
-    #   BMP3XX_TEMP_OSR_SETTINGS[3], Temperature sampling×8，19 bit / 0.0006 °C
-    #   BMP3XX_TEMP_OSR_SETTINGS[4], Temperature sampling×16，20 bit / 0.0003 °C
-    #   BMP3XX_TEMP_OSR_SETTINGS[5], Temperature sampling×32，21 bit / 0.00015 °C
+    # Oversampling mode of pressure and temperature measurement need to be set
+    # press_osr_set 6 pressure oversampling mode:
+    #   BMP3XX_PRESS_OSR_SETTINGS[0], Pressure sampling×1, 16 bit / 2.64 Pa (Recommend temperature oversampling×1)
+    #   BMP3XX_PRESS_OSR_SETTINGS[1], Pressure sampling×2, 16 bit / 2.64 Pa (Recommend temperature oversampling×1)
+    #   BMP3XX_PRESS_OSR_SETTINGS[2], Pressure sampling×4, 18 bit / 0.66 Pa (Recommend temperature oversampling×1)
+    #   BMP3XX_PRESS_OSR_SETTINGS[3], Pressure sampling×8, 19 bit / 0.33 Pa (Recommend temperature oversampling×2)
+    #   BMP3XX_PRESS_OSR_SETTINGS[4], Pressure sampling×16, 20 bit / 0.17 Pa (Recommend temperature oversampling×2)
+    #   BMP3XX_PRESS_OSR_SETTINGS[5], Pressure sampling×32, 21 bit / 0.085 Pa (Recommend temperature oversampling×2)
+    # temp_osr_set 6 temperature oversampling mode:
+    #   BMP3XX_TEMP_OSR_SETTINGS[0], Temperature sampling×1, 16 bit / 0.0050 °C
+    #   BMP3XX_TEMP_OSR_SETTINGS[1], Temperature sampling×2, 16 bit / 0.0025 °C
+    #   BMP3XX_TEMP_OSR_SETTINGS[2], Temperature sampling×4, 18 bit / 0.0012 °C
+    #   BMP3XX_TEMP_OSR_SETTINGS[3], Temperature sampling×8, 19 bit / 0.0006 °C
+    #   BMP3XX_TEMP_OSR_SETTINGS[4], Temperature sampling×16, 20 bit / 0.0003 °C
+    #   BMP3XX_TEMP_OSR_SETTINGS[5], Temperature sampling×32, 21 bit / 0.00015 °C
   '''
   sensor.set_oversampling(BMP3XX_PRESS_OSR_SETTINGS[1], BMP3XX_TEMP_OSR_SETTINGS[0])
 
   '''
     # IIR filter coefficient configuration (IIR filtering)
-    # mode Set IIR filter coefficient, configurable mode:
-    #   BMP3XX_IIR_CONFIG_COEF_0，BMP3XX_IIR_CONFIG_COEF_1，BMP3XX_IIR_CONFIG_COEF_3，
-    #   BMP3XX_IIR_CONFIG_COEF_7，BMP3XX_IIR_CONFIG_COEF_15，BMP3XX_IIR_CONFIG_COEF_31，
-    #   BMP3XX_IIR_CONFIG_COEF_63，BMP3XX_IIR_CONFIG_COEF_127
+    # iir_config_coef Set IIR filter coefficient, configurable mode:
+    #   BMP3XX_IIR_CONFIG_COEF_0, BMP3XX_IIR_CONFIG_COEF_1, BMP3XX_IIR_CONFIG_COEF_3, 
+    #   BMP3XX_IIR_CONFIG_COEF_7, BMP3XX_IIR_CONFIG_COEF_15, BMP3XX_IIR_CONFIG_COEF_31, 
+    #   BMP3XX_IIR_CONFIG_COEF_63, BMP3XX_IIR_CONFIG_COEF_127
   '''
   sensor.filter_coefficient(BMP3XX_IIR_CONFIG_COEF_1)
 
   '''
     # Set the output data rate setting in subdivision/sub-sampling mode (ODR:output data rates)
-    # mode The output data rate needs to set, configurable mode:
-    #   BMP3XX_ODR_200_HZ，BMP3XX_ODR_100_HZ，BMP3XX_ODR_50_HZ，BMP3XX_ODR_25_HZ，BMP3XX_ODR_12P5_HZ，
-    #   BMP3XX_ODR_6P25_HZ，BMP3XX_ODR_3P1_HZ，BMP3XX_ODR_1P5_HZ，BMP3XX_ODR_0P78_HZ，BMP3XX_ODR_0P39_HZ，
-    #   BMP3XX_ODR_0P2_HZ，BMP3XX_ODR_0P1_HZ，BMP3XX_ODR_0P05_HZ，BMP3XX_ODR_0P02_HZ，BMP3XX_ODR_0P01_HZ，
-    #   BMP3XX_ODR_0P006_HZ，BMP3XX_ODR_0P003_HZ，BMP3XX_ODR_0P0015_HZ
-    #  Return True indicate configure succeed, return False indicate failed, remain its original state
+    # odr_set The output data rate needs to set, configurable mode:
+    #   BMP3XX_ODR_200_HZ, BMP3XX_ODR_100_HZ, BMP3XX_ODR_50_HZ, BMP3XX_ODR_25_HZ, BMP3XX_ODR_12P5_HZ, 
+    #   BMP3XX_ODR_6P25_HZ, BMP3XX_ODR_3P1_HZ, BMP3XX_ODR_1P5_HZ, BMP3XX_ODR_0P78_HZ, BMP3XX_ODR_0P39_HZ, 
+    #   BMP3XX_ODR_0P2_HZ, BMP3XX_ODR_0P1_HZ, BMP3XX_ODR_0P05_HZ, BMP3XX_ODR_0P02_HZ, BMP3XX_ODR_0P01_HZ, 
+    #   BMP3XX_ODR_0P006_HZ, BMP3XX_ODR_0P003_HZ, BMP3XX_ODR_0P0015_HZ
+    # Return True indicate configure succeed, return False indicate failed, remain its original state
   '''
   while sensor.set_output_data_rates(BMP3XX_ODR_25_HZ) == False:
     print ('Set ODR mode fail! Please select lower frequency!')
