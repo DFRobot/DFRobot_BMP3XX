@@ -13,17 +13,19 @@
 '''
 from __future__ import print_function
 import sys
-sys.path.append('../')
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
+
 from DFRobot_BMP3XX import *
 
 '''
-  # iic_addr = 0x76: pin SDO is low
-  # iic_addr = 0x77: pin SDO is high
+  # i2c_addr = 0x76: pin SDO is low
+  # i2c_addr = 0x77: pin SDO is high
   # Note: Both the BMP390L and gravity version of the BMP388 sensor have pulled the SDO pin high by default, the address is 0x77; but the breakout version does not pull 
-  #       the SDO high, and the IIC address is 0x76.
-  # The following IIC and SPI communications support both BMP388 and BMP390L
+  #       the SDO high, and the I2C address is 0x76.
+  # The following I2C and SPI communications support both BMP388 and BMP390L
 '''
-sensor = DFRobot_BMP3XX_I2C(iic_addr = 0x77,bus = 1)
+sensor = DFRobot_BMP3XX_I2C(i2c_addr = 0x77,bus = 1)
 # sensor = DFRobot_BMP3XX_SPI(cs=8, bus=0, dev=0, speed=8000000)
 
 global flag

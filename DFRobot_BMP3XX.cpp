@@ -1,7 +1,7 @@
 /*!
  * @file DFRobot_BMP3XX.cpp
  * @brief Define the infrastructure DFRobot_BMP3XX class
- * @n This is a pressure and temperature sensor. IIC address cannot be changed. It can be controlled by IIC and SPI port.
+ * @n This is a pressure and temperature sensor. I2C address cannot be changed. It can be controlled by I2C and SPI port.
  * @copyright Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license The MIT License (MIT)
  * @author [qsjhyy](yihuan.huang@dfrobot.com)
@@ -438,26 +438,26 @@ void DFRobot_BMP3XX::cacheINTStatus(void)
   }
 }
 
-/***************** Initialization and reading and writing of IIC and SPI interfaces ******************************/
+/***************** Initialization and reading and writing of I2C and SPI interfaces ******************************/
 
-DFRobot_BMP3XX_IIC::DFRobot_BMP3XX_IIC(TwoWire *pWire, eSDOPinMode_t mode, uint8_t chipID)
+DFRobot_BMP3XX_I2C::DFRobot_BMP3XX_I2C(TwoWire *pWire, eSDOPinMode_t mode, uint8_t chipID)
   :DFRobot_BMP3XX(chipID)
 {
   if(mode){
-    _deviceAddr = DFROBOT_BMP3XX_IIC_ADDR_SDO_VDD;
+    _deviceAddr = DFROBOT_BMP3XX_I2C_ADDR_SDO_VDD;
   }else{
-    _deviceAddr = DFROBOT_BMP3XX_IIC_ADDR_SDO_GND;
+    _deviceAddr = DFROBOT_BMP3XX_I2C_ADDR_SDO_GND;
   }
   _pWire = pWire;
 }
 
-int DFRobot_BMP3XX_IIC::begin(void)
+int DFRobot_BMP3XX_I2C::begin(void)
 {
-  _pWire->begin();   // Wire.h(IIC)library function initialize wire library
+  _pWire->begin();   // Wire.h(I2C)library function initialize wire library
   return DFRobot_BMP3XX::begin();   // Use the initialization function of the parent class
 }
 
-void DFRobot_BMP3XX_IIC::writeReg(uint8_t reg, const void* pBuf, size_t size)
+void DFRobot_BMP3XX_I2C::writeReg(uint8_t reg, const void* pBuf, size_t size)
 {
   if(pBuf == NULL){
     DBG("pBuf ERROR!! : null pointer");
@@ -473,7 +473,7 @@ void DFRobot_BMP3XX_IIC::writeReg(uint8_t reg, const void* pBuf, size_t size)
   _pWire->endTransmission();
 }
 
-size_t DFRobot_BMP3XX_IIC::readReg(uint8_t reg, void* pBuf, size_t size)
+size_t DFRobot_BMP3XX_I2C::readReg(uint8_t reg, void* pBuf, size_t size)
 {
   size_t count = 0;
   if(NULL == pBuf)
@@ -559,10 +559,10 @@ size_t DFRobot_BMP3XX_SPI::readReg(uint8_t reg, void* pBuf, size_t size)
 }
 
 /***************** BMP388 chip ******************************/
-/***************** Initialization and reading and writing of IIC and SPI interfaces ******************************/
+/***************** Initialization and reading and writing of I2C and SPI interfaces ******************************/
 
-DFRobot_BMP388_IIC::DFRobot_BMP388_IIC(TwoWire *pWire, eSDOPinMode_t mode)
-  :DFRobot_BMP3XX_IIC(pWire, mode, DFROBOT_BMP388_ID)
+DFRobot_BMP388_I2C::DFRobot_BMP388_I2C(TwoWire *pWire, eSDOPinMode_t mode)
+  :DFRobot_BMP3XX_I2C(pWire, mode, DFROBOT_BMP388_ID)
 {
 
 }
@@ -574,10 +574,10 @@ DFRobot_BMP388_SPI::DFRobot_BMP388_SPI(SPIClass *pSpi, uint8_t csPin)
 }
 
 /***************** BMP390L chip ******************************/
-/***************** Initialization and reading and writing of IIC and SPI interfaces ******************************/
+/***************** Initialization and reading and writing of I2C and SPI interfaces ******************************/
 
-DFRobot_BMP390L_IIC::DFRobot_BMP390L_IIC(TwoWire *pWire, eSDOPinMode_t mode)
-  :DFRobot_BMP3XX_IIC(pWire, mode, DFROBOT_BMP390L_ID)
+DFRobot_BMP390L_I2C::DFRobot_BMP390L_I2C(TwoWire *pWire, eSDOPinMode_t mode)
+  :DFRobot_BMP3XX_I2C(pWire, mode, DFROBOT_BMP390L_ID)
 {
 
 }

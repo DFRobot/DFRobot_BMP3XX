@@ -1,7 +1,7 @@
 /*!
  * @file  DFRobot_BMP3XX.h
  * @brief  Define infrastructure of DFRobot_BMP3XX class
- * @details  This is a pressure and temperature sensor that can be controlled via IIC and SPI port.
+ * @details  This is a pressure and temperature sensor that can be controlled via I2C and SPI port.
  * @n  BMP(390L/388) has temperature compensation, data oversampling, IIR filter, binary sampling and other functions
  * @n  These functions improve the accuracy of data collected by the BMP (390L/388) sensor.
  * @n  BMP (390L/388) also has a 512-byte FIFO data buffer, which greatly improves its usability
@@ -30,8 +30,8 @@
 
 #define STANDARD_SEA_LEVEL_PRESSURE_PA  101325   ///< Standard sea level pressure, unit: pa
 
-#define DFROBOT_BMP3XX_IIC_ADDR_SDO_GND   uint8_t(0x76)   ///< IIC communication address when SDO is grounded
-#define DFROBOT_BMP3XX_IIC_ADDR_SDO_VDD   uint8_t(0x77)   ///< IIC communication address when SDO is connected to power
+#define DFROBOT_BMP3XX_I2C_ADDR_SDO_GND   uint8_t(0x76)   ///< I2C communication address when SDO is grounded
+#define DFROBOT_BMP3XX_I2C_ADDR_SDO_VDD   uint8_t(0x77)   ///< I2C communication address when SDO is connected to power
 
 #define DFROBOT_BMP388_ID 0x50             ///< BMP388 chip version
 #define DFROBOT_BMP390L_ID 0x60            ///< BMP390L chip version
@@ -1021,20 +1021,20 @@ private:
   sBMP3XXDeviceInfo_t BMP3Info;
 };
 
-/***************** initialization and write/read of IIC and SPI interfaces ******************************/
+/***************** initialization and write/read of I2C and SPI interfaces ******************************/
 
-class DFRobot_BMP3XX_IIC:public DFRobot_BMP3XX
+class DFRobot_BMP3XX_I2C:public DFRobot_BMP3XX
 {
 public:
   /**
-   * @fn DFRobot_BMP3XX_IIC
-   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @fn DFRobot_BMP3XX_I2C
+   * @brief constructor, set sensor I2C communication address according to SDO pin wiring
    * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
    * @param mode SDO pin connects to GND, the current I2C address is 0x76;SDO pin connects to VDDIO, the current I2C address is 0x77
    * @param chipID chip ID
    * @return None
    */
-  DFRobot_BMP3XX_IIC(TwoWire *pWire, eSDOPinMode_t mode, uint8_t chipID);
+  DFRobot_BMP3XX_I2C(TwoWire *pWire, eSDOPinMode_t mode, uint8_t chipID);
 
   /**
    * @fn begin
@@ -1049,7 +1049,7 @@ public:
 protected:
   /**
    * @fn writeReg
-   * @brief write register values through IIC bus
+   * @brief write register values through I2C bus
    * @param reg  register address 8bits
    * @param pBuf to write data storage and buffer
    * @param size to write data length
@@ -1059,7 +1059,7 @@ protected:
 
   /**
    * @fn readReg
-   * @brief read register values through IIC bus
+   * @brief read register values through I2C bus
    * @param reg  register address 8bits
    * @param pBuf to read data storage and buffer
    * @param size to read data length
@@ -1068,8 +1068,8 @@ protected:
   virtual size_t readReg(uint8_t reg, void* pBuf, size_t size);
 
 private:
-  TwoWire *_pWire;   // pointer to IIC communication method
-  uint8_t _deviceAddr;   // IIC communication device address
+  TwoWire *_pWire;   // pointer to I2C communication method
+  uint8_t _deviceAddr;   // I2C communication device address
 };
 
 class DFRobot_BMP3XX_SPI:public DFRobot_BMP3XX
@@ -1122,19 +1122,19 @@ private:
 };
 
 /***************** BMP388 chip ******************************/
-/***************** initialization and write/read of IIC and SPI interfaces ******************************/
+/***************** initialization and write/read of I2C and SPI interfaces ******************************/
 
-class DFRobot_BMP388_IIC:public DFRobot_BMP3XX_IIC
+class DFRobot_BMP388_I2C:public DFRobot_BMP3XX_I2C
 {
 public:
   /**
-   * @fn DFRobot_BMP388_IIC
-   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @fn DFRobot_BMP388_I2C
+   * @brief constructor, set sensor I2C communication address according to SDO pin wiring
    * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
    * @param mode SDO pin connects to GND, the current I2C address is 0x76; SDO pin connects to VDDIO, the current I2C address is 0x77
    * @return None
    */
-  DFRobot_BMP388_IIC(TwoWire *pWire=&Wire, eSDOPinMode_t mode=eSDOVDD);
+  DFRobot_BMP388_I2C(TwoWire *pWire=&Wire, eSDOPinMode_t mode=eSDOVDD);
 
 };
 
@@ -1143,7 +1143,7 @@ class DFRobot_BMP388_SPI:public DFRobot_BMP3XX_SPI
 public:
   /**
    * @fn DFRobot_BMP388_SPI
-   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @brief constructor, set sensor I2C communication address according to SDO pin wiring
    * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
    * @param csPin is the digital pin that specifies cs to connect to
    * @return None
@@ -1153,19 +1153,19 @@ public:
 };
 
 /***************** BMP390L chip ******************************/
-/***************** initialization and write/read of IIC and SPI interfaces ******************************/
+/***************** initialization and write/read of I2C and SPI interfaces ******************************/
 
-class DFRobot_BMP390L_IIC:public DFRobot_BMP3XX_IIC
+class DFRobot_BMP390L_I2C:public DFRobot_BMP3XX_I2C
 {
 public:
   /**
-   * @fn DFRobot_BMP390L_IIC
-   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @fn DFRobot_BMP390L_I2C
+   * @brief constructor, set sensor I2C communication address according to SDO pin wiring
    * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
    * @param mode SDO pin connects to GND, the current I2C address is 0x76; SDO pin connects to VDDIO, the current I2C address is 0x77
    * @return None
    */
-  DFRobot_BMP390L_IIC(TwoWire *pWire=&Wire, eSDOPinMode_t mode=eSDOVDD);
+  DFRobot_BMP390L_I2C(TwoWire *pWire=&Wire, eSDOPinMode_t mode=eSDOVDD);
 
 };
 
@@ -1174,7 +1174,7 @@ class DFRobot_BMP390L_SPI:public DFRobot_BMP3XX_SPI
 public:
   /**
    * @fn DFRobot_BMP390L_SPI
-   * @brief constructor, set sensor IIC communication address according to SDO pin wiring
+   * @brief constructor, set sensor I2C communication address according to SDO pin wiring
    * @param pWire Wire object is defined in Wire.h, so just use &Wire and the methods in Wire can be pointed to and used
    * @param csPin is the digital pin that specifies cs to connect to
    * @return None

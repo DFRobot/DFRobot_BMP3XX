@@ -2,7 +2,7 @@
 '''!
   @file  DFRobot_BMP3XX.py
   @brief  Define the infrastructure of DFRobot_BMP3XX class
-  @details  This is a pressure and temperature sensor that can be controlled via IIC and SPI port.
+  @details  This is a pressure and temperature sensor that can be controlled via I2C and SPI port.
   @n  BMP(390L/388)has temperature compensation, data oversampling, IIR filter, binary sampling and other functions
   @n  These functions improve the accuracy of data collected by the BMP (390L/388) sensor.
   @n  BMP (390L/388) also has a 512-byte FIFO data buffer, which greatly improves its usability.
@@ -16,9 +16,11 @@
 '''
 import sys
 import time
+
 import smbus
 import spidev
 import RPi.GPIO as GPIO
+
 import logging
 from ctypes import *
 
@@ -30,10 +32,10 @@ formatter = logging.Formatter("%(asctime)s - [%(filename)s %(funcName)s]:%(linen
 ph.setFormatter(formatter) 
 logger.addHandler(ph)
 
-## IIC communication address when SDO is grounded
-DFROBOT_BMP3XX_IIC_ADDR_SDO_GND = 0x76
-## IIC communication address when SDO is connected to power
-DFROBOT_BMP3XX_IIC_ADDR_SDO_VDD = 0x77
+## I2C communication address when SDO is grounded
+DFROBOT_BMP3XX_I2C_ADDR_SDO_GND = 0x76
+## I2C communication address when SDO is connected to power
+DFROBOT_BMP3XX_I2C_ADDR_SDO_VDD = 0x77
 
 ## BMP388 chip version
 BMP388_CHIP_ID = 0x50
@@ -598,6 +600,7 @@ class DFRobot_BMP3XX(object):
           @brief read the data from the register
           @param reg register address
           @param length read data length
+          @return read data list
         '''
         # Low level register writing, not implemented in base class
         raise NotImplementedError()
@@ -606,16 +609,16 @@ class DFRobot_BMP3XX(object):
 class DFRobot_BMP3XX_I2C(DFRobot_BMP3XX):
     '''!
       @brief define DFRobot_BMP3XX_I2C base class
-      @details for using IIC protocol to drive the pressure sensor
+      @details for using I2C protocol to drive the pressure sensor
     '''
 
-    def __init__(self, iic_addr=0x77, bus=1):
+    def __init__(self, i2c_addr=0x77, bus=1):
         '''!
           @brief Module I2C communication init
-          @param iic_addr IIC communication address
-          @param bus IIC bus
+          @param i2c_addr I2C communication address
+          @param bus I2C bus
         '''
-        self._addr = iic_addr
+        self._addr = i2c_addr
         self.i2c = smbus.SMBus(bus)
         super(DFRobot_BMP3XX_I2C, self).__init__()
 
@@ -635,6 +638,7 @@ class DFRobot_BMP3XX_I2C(DFRobot_BMP3XX):
           @brief read the data from the register
           @param reg register address
           @param length read data length
+          @return read data list
         '''
         return self.i2c.read_i2c_block_data(self._addr, reg, length)
 
@@ -684,6 +688,7 @@ class DFRobot_BMP3XX_SPI(DFRobot_BMP3XX):
           @brief read the data from the register
           @param reg register address
           @param length read data length
+          @return read data list
         '''
         reg_addr = [reg | 0x80]
         GPIO.output(self._cs, GPIO.LOW)

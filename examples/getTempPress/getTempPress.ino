@@ -14,21 +14,21 @@
 #include <DFRobot_BMP3XX.h>
 
 /* If using Gravity products, choose these two interfaces and comment subsequent interfaces. */
-// DFRobot_BMP388_IIC sensor();
-// DFRobot_BMP390L_IIC sensor();
+// DFRobot_BMP388_I2C sensor;
+// DFRobot_BMP390L_I2C sensor;
 
 /**
  * Select the chip version BMP388/BMP390L
- * Select communication interface IIC, please comment out SPI interface.
- * IIC communication address settings: eSDOGND: connect SDO pin to GND, I2C address is 0×76 now.
+ * Select communication interface I2C, please comment out SPI interface.
+ * I2C communication address settings: eSDOGND: connect SDO pin to GND, I2C address is 0×76 now.
  *                   eSDOVDD: Connect SDO pin to VDDIO (3v3), I2C address is 0×77 now
  */
-// DFRobot_BMP388_IIC sensor(&Wire, sensor.eSDOVDD);
-DFRobot_BMP390L_IIC sensor(&Wire, sensor.eSDOVDD);
+// DFRobot_BMP388_I2C sensor(&Wire, sensor.eSDOVDD);
+DFRobot_BMP390L_I2C sensor(&Wire, sensor.eSDOVDD);
 
 /**
  * Select chip version BMP388/BMP390L
- * Select communication port SPI, please comment out IIC port
+ * Select communication port SPI, please comment out I2C port
  * Set up digital pin according to the on-board pin connected with SPI chip-select pin.
  * Notice: csPin used here is D3 digital pin on ESP32, other non-conflicting pins can also be selected as external interrupt pins.
  */
