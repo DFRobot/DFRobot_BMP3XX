@@ -11,7 +11,7 @@ in battery driven devices such as mobile phones, GPS modules or watches.
 
 
 ## Product Link (https://www.dfrobot.com/product-1792.html)
-    SKU: SEN0423/SEN0251
+    SKU: SEN0423/SEN0251/SEN0371
 
 
 ## Table of Contents
