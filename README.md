@@ -7,11 +7,12 @@ sensor module is housed in an extremely compact 10-pin metal-lid LGA package wit
 max 0.8 mm package height. Its small dimensions and its low power consumption of 3.2 µA @1Hz allow the implementation 
 in battery driven devices such as mobile phones, GPS modules or watches.
 
-![产品实物图](./resources/images/BMP388.png)
+![BMP388(Gravity)产品实物图](./resources/images/BMP388.png)
+![BMP390L(Fermion)产品实物图](./resources/images/BMP390L.png)
 
 
-## Product Link (https://www.dfrobot.com/product-1792.html)
-    SKU: SEN0423/SEN0251/SEN0371
+## Product Link (https://www.dfrobot.com/search-bmp3.html)
+    SKU: SEN0423/SEN0371/SEN0251
 
 
 ## Table of Contents
@@ -269,6 +270,7 @@ Raspberry Pi       |      √       |              |             |
 - 2021/04/20 - Version 1.0.0 released.
 - 2021/11/08 - Version 1.0.1 released.
 - 2021/12/03 - Version 1.0.2 released.
+- 2022/09/21 - Version 1.0.3 released.
 
 
 ## Credits

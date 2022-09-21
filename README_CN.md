@@ -6,11 +6,12 @@ BMP(390L/388)是一款基于可靠传感原理的压力和温度测量数字传�
 传感器模块安装在一个非常紧凑的10针金属盖LGA封装中, 占地面积仅为2.0 × 2.0 mm², 最大0.8 mm封装高度。
 它的小尺寸和低功耗的3.2µA @1Hz允许实现在电池驱动的设备, 如手机, GPS模块或手表。
 
-![产品实物图](./resources/images/BMP388.png)
+![BMP388(Gravity)产品实物图](./resources/images/BMP388.png)
+![BMP390L(Fermion)产品实物图](./resources/images/BMP390L.png)
 
 
-## 产品链接 (https://www.dfrobot.com.cn/goods-1392.html)
-    SKU: SEN0423/SEN0251
+## 产品链接 (https://www.dfrobot.com.cn/search.php?keywords=bmp3)
+    SKU: SEN0423/SEN0371/SEN0251
 
 
 ## 目录
@@ -268,6 +269,7 @@ Raspberry Pi       |      √       |              |             |
 - 2021/04/20 - 1.0.0 版本
 - 2021/11/08 - 1.0.1 版本
 - 2021/12/03 - 1.0.2 版本
+- 2022/09/21 - 1.0.3 版本
 
 
 ## 创作者
